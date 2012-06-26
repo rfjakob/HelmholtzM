@@ -1,0 +1,25 @@
+function [ ] = enable_gui( handles, state )
+%ENABLE_GUI Summary of this function goes here
+%   Detailed explanation goes here
+
+% Set these controls to <state>
+l=[handles.pushbutton_remeasure
+    handles.edit_rotation_axis
+    handles.edit_stepsize
+    handles.edit_steptime
+    handles.edit_target_flux_density
+    handles.checkbox_antiparallel];
+
+for k=l
+    set(k,'Enable',state);
+end
+    
+rotate3d(config.handles.axes_3d,state);    
+    
+% Abort button to opposite
+opstate
+set(handles.pushbutton_abort,'Enable',state
+
+
+end
+

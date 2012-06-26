@@ -1,0 +1,26 @@
+The global variable "config" holds all the global state. It's elements are
+documented below.
+
+
+config.
+
+    rotation_axis           Axes around which the circle is drawn
+
+    points_todo             Points on the circle that we should iterate over
+
+    points_done             Points that are already done
+
+    earth_field             Measured earth field
+
+    set_current	            Currently set current, amperes, 1x3 [x y z]
+
+    psu_output_state        Current state of the power supplies output (aka OUTPUT ON/OFF). 0 or 1.
+
+    instruments.            Handles to instruments
+        psux
+        psuy
+        psuz	            Serial handles to the power supplies
+
+    guihandles.             Handles to GUI elements
+        axes_3d             3D visulization plot
+        text_earthfield     Earth field display
