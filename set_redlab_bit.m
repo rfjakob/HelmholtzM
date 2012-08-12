@@ -1,21 +1,29 @@
-function [ ] = set_redlab_bit( bitname, value )
+function [ ] = set_redlab_bit( bitname, BitValue )
 %SET_REDLAB_BIT Set a bit (or bit block) on the redlab unit by functional
 %name (see below).
 
 switch bitname
     case 'antiparallel'
-        % TODO x 3
+        BitNum=[8 10 12];
     case 'XPOL'
-        % TODO
+        BitNum=9;
     case 'YPOL'   
-        % TODO
+        BitNum=11;
     case 'ZPOL'
-        % TODO
+        BitNum=13;
     otherwise
-        bitname
-        error('BUG: Invalid bitname')
+        error('BUG: Invalid bitname "%d"',bitname)
 end
+ 
+[BoardNum,~,PortType]=redlab_conf();
 
+for b=BitNum
+    % int cbDBitOut(int BoardNum, int PortType, int BitNum, unsigned short BitValue)
+    r=calllib('cbw32','cbDBitOut',BoardNum, PortType, b, BitValue);
+    if r~=0
+        error('Could set bit on redlab relay switching board: Error %d',r)
+    end
+end
 
 end
 

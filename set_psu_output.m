@@ -5,9 +5,9 @@ function [ ] = set_psu_output( state )
 global config
 
 if state == 0
-    f='OUT1 OFF';
+    f='OP1 0';
 elseif state == 1
-    f='OUT1 ON';
+    f='OP1 1';
 else
     state
     error('BUG: Invalid state')
@@ -20,4 +20,3 @@ fprintf(config.instruments.psuz,f);
 config.psu_output_state = state;
 
 end
-

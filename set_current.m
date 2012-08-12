@@ -2,12 +2,12 @@ function [ output_args ] = set_current( I_coil )
 %SET_CURRENT Make the power supplies output the specified (I=[ Ix Iy Iz ])
 %current
 
-
-return % Disabled for now
-
 global config;
+persistent I_old;
 
-I_old=config.set_current;
+if isempty(I_old)
+    I_old=[0 0 0];
+end
 
 xyz='XYZ';
 for k=[1 2 3]
@@ -21,40 +21,44 @@ for k=[1 2 3]
     
     % If the polarity is changing, switch the relays
     if I_coil(k)<0 && I_old(k)>=0
-        set_redlab_bit(['POL' xyz(k)],1)
+        set_redlab_bit([xyz(k) 'POL'],1)
     elseif I_coil(k)>=0 && I_old(k)>=0
-        set_redlab_bit(['POL' xyz(k)],0)
+        set_redlab_bit([xyz(k) 'POL'],0)
     end
 end
 
-% Write-out asynchronously to all three simultaneously for speed
 f='I1 %d\n';
+
+fprintf(config.instruments.psux, f,I_psu(1));
+fprintf(config.instruments.psuy, f,I_psu(2));
+fprintf(config.instruments.psuz, f,I_psu(3));
+
+%{
+% Write-out asynchronously to all three simultaneously for speed
 fprintf(config.instruments.psux, f,I_psu(1), 'async');
 fprintf(config.instruments.psuy, f,I_psu(2), 'async');
 fprintf(config.instruments.psuz, f,I_psu(3), 'async');
 
 % Wait for completion
 wait_time=0.01;
-wait_num=0;
+k=0;
 while 1
-    if config.visa.psux.BytesToOutput==0 ...
-            && config.visa.psuy.BytesToOutput==0 ...
-            && config.visa.psuz.BytesToOutput==0
-        break
-    end
-    if config.abort==1
-        disp('User abort in set_current')
+    if config.instruments.psux.BytesToOutput==0 ...
+            && config.instruments.psuy.BytesToOutput==0 ...
+            && config.instruments.psuz.BytesToOutput==0
         break
     end
     
-    pause(p)
+    pause(wait_time)
     k=k+1;
     
-    if wait_time*wait_num > 1
-        % Longer than 1 second - something's broken
+    if wait_time*k > 1
+        % Longer than 1 second - something is broken
         disp('Timeout in set_current')
         break
     end
 end
+%}
 
-config.set_current=I_coil;
+I_old=I_coil;
+end

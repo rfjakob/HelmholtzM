@@ -10,6 +10,7 @@ if config.psu_output_state == 0
 else
     % Output is on, set to off first, switch relays, set back on
     set_psu_output(0);
+    pause(0.2);
     set_redlab_bit('antiparallel',state);
     set_psu_output(1);
 end
@@ -17,4 +18,3 @@ end
 
 
 end
-

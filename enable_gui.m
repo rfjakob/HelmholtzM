@@ -1,6 +1,7 @@
 function [ ] = enable_gui( handles, state )
-%ENABLE_GUI Summary of this function goes here
-%   Detailed explanation goes here
+%ENABLE_GUI Unlock/lock user controls on the GUI.
+
+global config;
 
 % Set these controls to <state>
 l=[handles.pushbutton_remeasure
@@ -9,10 +10,18 @@ l=[handles.pushbutton_remeasure
     handles.edit_stepsize
     handles.edit_steptime
     handles.edit_target_flux_density
-    handles.checkbox_antiparallel];
+    handles.checkbox_antiparallel
+    handles.radiobutton_rotfld
+    handles.radiobutton_onofffld
+    handles.edit_numberof];
 
 for k=l
     set(k,'Enable',state);
+end
+
+% Step size stays disabled if mode is on-off switching
+if config.mode==1
+    set(handles.edit_stepsize,'Enable','off');
 end
 
 % Abort button gets opposite state
