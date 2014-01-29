@@ -3,25 +3,44 @@ function [ ] = enable_gui( handles, state )
 
 global config;
 
+h=handles;
+
 % Set these controls to <state>
-l=[handles.pushbutton_remeasure
-    handles. pushbutton_start_360_cycle
-    handles.edit_rotation_axis
-    handles.edit_stepsize
-    handles.edit_steptime
-    handles.edit_target_flux_density
-    handles.checkbox_antiparallel
-    handles.radiobutton_rotfld
-    handles.radiobutton_onofffld
-    handles.edit_numberof];
+l=[h.pushbutton_remeasure
+    h.pushbutton_start_360_cycle
+    h.edit_rotation_axis
+    h.edit_second_axis
+    h.edit_third_axis
+    h.edit_stepsize
+    h.edit_steptime
+    h.edit_target_flux_density
+    h.edit_guardbefore
+    h.edit_guardafter
+    h.radiobutton_rotfld
+    h.radiobutton_onofffld
+    h.edit_numberof
+    h.checkbox_secondaxis
+    h.checkbox_thirdaxis];
 
 for k=l
     set(k,'Enable',state);
 end
 
-% Step size stays disabled if mode is on-off switching
-if config.mode==1
+% Step size stays disabled if mode is on-off or on-anti
+if config.mode~=0
     set(handles.edit_stepsize,'Enable','off');
+end
+% Antiparallel cycles are disabled in on-anti mode
+if config.mode==2
+    set(h.edit_guardbefore,'Enable','off');
+    set(h.edit_guardafter,'Enable','off');
+end
+% Disabled axes stay disabled
+if config.axes_enabled(2)==0
+    set(handles.edit_second_axis,'Enable','off');
+end
+if config.axes_enabled(3)==0
+    set(handles.edit_third_axis,'Enable','off');
 end
 
 % Abort button gets opposite state
@@ -32,11 +51,10 @@ elseif strcmp(state,'on')
 else
     error('BUG!')
 end
-set(handles.pushbutton_abort,'Enable',opstate)
+set(h.pushbutton_abort,'Enable',opstate)
 
 % Disable/Enable axes rotation. Throws errors if user rotates while cycle
 % is running.
-global config;
 rotate3d(config.guihandles.axes_3d,state);    
 
 

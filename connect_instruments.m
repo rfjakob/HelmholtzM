@@ -3,27 +3,35 @@ function [ ] = connect_instruments( )
 
 global config;
 
-if config.dryrun==1
-    return
-end
-
 try
     fclose(instrfind);
 end
 
-[config.instruments.psux idn] = open_psu(3);
-[config.instruments.psuy idn] = open_psu(4);
-[config.instruments.psuz idn] = open_psu(5);
-set_psu_output(1);
+s=coilcontrol_settings();
 
-[notfound,warnings]=loadlibrary('C:\Program Files (x86)\Meilhaus Electronic\RedLab\cbw32.dll','cbw.h');
+[config.instruments.psu(1) idn] = open_psu(s.psucom.x);
+[config.instruments.psu(2) idn] = open_psu(s.psucom.y);
+[config.instruments.psu(3) idn] = open_psu(s.psucom.z);
+set_psu_range(1);
+set_psu_output([1 2 3], 1);
 
-% int cbDConfigPort(int BoardNum, int PortNum, int Direction)
 [BoardNum, PortNum]=redlab_conf();
-r=calllib('cbw32','cbDConfigPort',BoardNum,PortNum,1);
+
+if config.dryrun==1
+    r=0;
+else
+    % http://www.mathworks.com/matlabcentral/answers/259-warnings-returned-by-loadlibrary
+    warning off MATLAB:loadlibrary:TypeNotFound
+    [notfound,warnings]=loadlibrary('cbw32.dll','cbw32.h');
+    % int cbDConfigPort(int BoardNum, int PortNum, int Direction)
+    r=calllib('cbw32','cbDConfigPort',BoardNum,PortNum,1);
+end
+
 if r~=0
     error('Could not initialize redlab relay switching board: Error %d',r)
 end
+
+connect_mag03dam();
     
 end
 

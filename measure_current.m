@@ -3,21 +3,24 @@ function [ I ] = measure_current( )
 
 global config;
 
+if config.dryrun==1
+    I=[0 0 0];
+    return
+end
+
 % Write-out asynchronously to all three simultaneously for speed
 f='I1O?\n';
-fprintf(config.instruments.psux, f, 'async');
-fprintf(config.instruments.psuy, f, 'async');
-fprintf(config.instruments.psuz, f, 'async');
+for k=[1 2 3]
+    fprintf(config.instruments.psu(k), f, 'async');
+end
 
 % query(s,'I1O?') -> 0.1A
 f='%fA';
 % Why not direct fscanf()? Can't debug the received string!
-s.x=fscanf(config.instruments.psux);
-I(1)=sscanf(s.x, f);
-s.y=fscanf(config.instruments.psuy);
-I(2)=sscanf(s.y, f);
-s.z=fscanf(config.instruments.psuz);
-I(3)=sscanf(s.z, f);
+for k=[1 2 3]
+    s.x=fscanf(config.instruments.psu(k));
+    I(k)=sscanf(s.x, f);
+end
 
 
 end

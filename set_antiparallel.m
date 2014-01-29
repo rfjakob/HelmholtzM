@@ -2,17 +2,22 @@ function [ ] = set_antiparallel( state )
 %SET_ANTIPARALLEL Switch the relays to antiparallel (state==1) currents.
 %   Switches off the outputs of the power supplies first to prevent arcing.
 
-global config;
+persistent last_state;
 
-if config.psu_output_state == 0
-    % PSU output is already off, just switch
-    set_redlab_bit('antiparallel',state);
-else
-    % Output is on, set to off first, switch relays, set back on
-    set_psu_output(0);
+if isempty(last_state)
+    last_state=-1;
+end
+
+if last_state~=state
+    set_psu_output(1,0);
+    set_psu_output(2,0);
+    set_psu_output(3,0);
     pause(0.2);
     set_redlab_bit('antiparallel',state);
-    set_psu_output(1);
+    set_psu_output(1,1);
+    set_psu_output(2,1);
+    set_psu_output(3,1);
+    last_state=state;
 end
 
 
