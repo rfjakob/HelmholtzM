@@ -95,7 +95,7 @@ function edit_steptime_Callback(hObject, eventdata, handles)
 %        str2double(get(hObject,'String')) returns contents of edit_steptime as a double
 global config;
 n=str2double(get(hObject,'String'));
-if isnan(n) || n<0 || n>60
+if isnan(n) || n<0 || n>3600
     set(hObject,'BackgroundColor','red');
     n=NaN;
     config.cycle_time=n;
