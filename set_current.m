@@ -21,14 +21,14 @@ for k=[1 2 3]
     
     % If the polarity is changing, switch the relays
     if I_coil(k)<0 && I_old(k)>=0
-        set_redlab_bit([xyz(k) 'POL'],1)
+        set_arduino_bit([xyz(k) 'POL'],1)
     elseif I_coil(k)>=0 && I_old(k)>=0
-        set_redlab_bit([xyz(k) 'POL'],0)
+        set_arduino_bit([xyz(k) 'POL'],0)
     end
     
     if config.dryrun==0
         set_psu_output(k,1);
-        fprintf(config.instruments.psu(k), 'I1 %d\n', I_psu(k));
+        fprintf(config.instruments.psu(k), 'I%d %d\n',config.instruments.psuout(k), I_psu(k));
     end
 end
 

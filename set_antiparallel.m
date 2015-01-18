@@ -12,8 +12,8 @@ if last_state~=state
     set_psu_output(1,0);
     set_psu_output(2,0);
     set_psu_output(3,0);
-    pause(0.2);
-    set_redlab_bit('antiparallel',state);
+    pause(1);
+    set_arduino_bit('antiparallel',state);
     set_psu_output(1,1);
     set_psu_output(2,1);
     set_psu_output(3,1);

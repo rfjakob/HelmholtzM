@@ -3,7 +3,7 @@ function [ out ] = tesla_per_amp( )
 
 out=          [253 250 250] * 1e-6 * 2;
 %                                    ^ Spec is for one strand of bifilar wire
-%                              ^ µT
+%                              ^ uT
 %               ^   ^   ^ Ferronato spec
 %
 

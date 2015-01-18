@@ -7,11 +7,21 @@ try
     fclose(instrfind);
 end
 
-s=coilcontrol_settings();
+s=user_settings();
 
-[config.instruments.psu(1) idn] = open_psu(s.psucom.x);
-[config.instruments.psu(2) idn] = open_psu(s.psucom.y);
-[config.instruments.psu(3) idn] = open_psu(s.psucom.z);
+config.instruments.psuout(1) = s.psuout.x;
+config.instruments.psu(1) = open_psu(s.psucom.x);
+
+config.instruments.psuout(1) = s.psuout.y;
+if s.psucom.y == s.psucom.x
+    config.instruments.psu(2) = config.instruments.psu(1);
+else
+    config.instruments.psu(2) = open_psu(s.psucom.y);
+end
+
+config.instruments.psuout = s.psuout.z;
+config.instruments.psu(3) = open_psu(s.psucom.z);
+
 set_psu_range(1);
 set_psu_output([1 2 3], 1);
 

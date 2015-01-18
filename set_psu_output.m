@@ -10,17 +10,9 @@ if isempty(last_state)
     last_state=[-1 -1 -1];
 end
 
-if state == 0
-    f='OP1 0';
-elseif state == 1
-    f='OP1 1';
-else
-    state
-    error('BUG: Invalid state')
-end
-
 for a=axes
 	if config.dryrun==0 && last_state(a)~=state
+        f = sprintf('OP%d %d', config.instruments.psuout(a), state);
         fprintf(config.instruments.psu(a),f);
 		last_state(a)=state;
 	end

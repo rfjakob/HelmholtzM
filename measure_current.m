@@ -8,20 +8,10 @@ if config.dryrun==1
     return
 end
 
-% Write-out asynchronously to all three simultaneously for speed
-f='I1O?\n';
 for k=[1 2 3]
-    fprintf(config.instruments.psu(k), f, 'async');
+    fprintf(config.instruments.psu(k), 'I%d0?\n', config.instruments.psuout(k));
+    I(k) = fscanf(config.instruments.psu(k), '%fA');
 end
 
-% query(s,'I1O?') -> 0.1A
-f='%fA';
-% Why not direct fscanf()? Can't debug the received string!
-for k=[1 2 3]
-    s.x=fscanf(config.instruments.psu(k));
-    I(k)=sscanf(s.x, f);
-end
-
-
-end
+end % function
 
