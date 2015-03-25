@@ -245,10 +245,10 @@ function pushbutton_start_360_cycle_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global config
-if norm(config.earth_field)==0 && config.dryrun==0
-    disp('You have to compensate earth field first!')
-    return
-end
+% if norm(config.earth_field)==0 && config.dryrun==0
+%    disp('You have to compensate earth field first!')
+%    return
+%end
 global log
 enable_gui(handles,'off');
 log=start_360_cycle();

@@ -28,7 +28,8 @@ for k=[1 2 3]
     
     if config.dryrun==0
         set_psu_output(k,1);
-        fprintf(config.instruments.psu(k), 'I%d %d\n',config.instruments.psuout(k), I_psu(k));
+        % TODO. Current control does not work.
+        fprintf(config.instruments.psu(k), 'I%d %d\n', [config.instruments.psuout(k); I_psu(k)]);
     end
 end
 

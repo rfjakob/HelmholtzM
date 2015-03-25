@@ -6,13 +6,13 @@ global config
 
 switch bitname
     case 'antiparallel'
-        BitNum=[1 2 3];
+        BitNum=[1 3 5]; % TODO
     case 'XPOL'
-        BitNum=4;
+        BitNum=[1 2];
     case 'YPOL'   
-        BitNum=5;
+        BitNum=[3 4];
     case 'ZPOL'
-        BitNum=6;
+        BitNum=[5 6];
     otherwise
         error('BUG: Invalid bitname "%d"',bitname)
 end
@@ -23,9 +23,9 @@ for b=BitNum
     end
     
     for bit=BitNum
-        fprintf(config.instruments.arduino, 'P%d %d', bit, BitValue);
+        fprintf(config.instruments.arduino, '%s\r\n', sprintf('P%d %d', [bit; BitValue]));
         r = fgetl(config.instruments.arduino);
-        if ~strcmp('OK', r)
+        if ~strcmp(sprintf('OK\r'), r)
             error('Got error from arduino: %s', r);
         end
     end

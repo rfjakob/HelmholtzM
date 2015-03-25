@@ -3,14 +3,18 @@ function [ I ] = measure_current( )
 
 global config;
 
-if config.dryrun==1
+% TODO
+if 1
+%if config.dryrun==1
     I=[0 0 0];
     return
 end
 
 for k=[1 2 3]
-    fprintf(config.instruments.psu(k), 'I%d0?\n', config.instruments.psuout(k));
-    I(k) = fscanf(config.instruments.psu(k), '%fA');
+    fprintf(config.instruments.psu(k), 'I%d?\n', config.instruments.psuout(k));
+    reply = fgetl(config.instruments.psu(k));
+    disp(reply)
+    I(k) = sscanf(reply, sprintf('I%d %%f', config.instruments.psuout(k)));
 end
 
 end % function

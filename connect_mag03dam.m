@@ -1,6 +1,6 @@
 function [ ] = connect_mag03dam( )
 
-	s=coilcontrol_settings();
+	s=user_config();
 
     warning off MATLAB:loadlibrary:TypeNotFound
     %unloadlibrary('M201_SP')

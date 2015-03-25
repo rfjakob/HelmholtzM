@@ -7,7 +7,7 @@ global config
 for k=[1 2 3]
     if config.dryrun==0
         set_psu_output(k, 0);
-        fprintf(config.instruments.psu(k), 'IRANGE%d %d\n', config.instruments.psuout(k), irange);
+        fprintf(config.instruments.psu(k), 'IRANGE%d %d\n', [config.instruments.psuout(k); irange]);
     end
 end
 
