@@ -22,7 +22,9 @@ else
     step_time=config.cycle_time/2;
 end
 
-maxcurr = (max(points(:,1:3))-config.earth_field) / tesla_per_amp();
+s = user_config();
+
+maxcurr = (max(points(:,1:3))-config.earth_field) / s.tesla_per_amp;
 maxcurr = max(maxcurr);
 if maxcurr < 0.5
     set_psu_range(1);
