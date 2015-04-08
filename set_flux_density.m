@@ -10,7 +10,14 @@ s = user_config();
 setB = targetB - config.earth_field;
 I = setB ./ s.tesla_per_amp;
 
-%disp(I*1000)
-set_current(I);
+% For the 1300mm coils, current control does not work.
+% The current fluctuates wildly sometimes, which is an indication that
+% the PSU cannot handle the high inductance.
+% Therefore, we use voltage control.
+%
+%set_current(I);
+R = s.resistance_ohms;
+V = R .* I;
+set_voltage(V);
 
 end

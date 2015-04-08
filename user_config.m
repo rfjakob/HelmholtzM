@@ -17,11 +17,13 @@ s.mag03com=2;
 % COM port of the Arduino
 s.arduino = 8;
 
-% flux density in the coil center (tesla)
-% per amp of current in the coils
+% flux density in the coil center (tesla) per amp of current in the coils
 s.tesla_per_amp =  [253 250 250] * 1e-6 * 2;
 %                                         ^ Spec is for one strand of bifilar wire
 %                                    ^ uT
 %                    ^   ^   ^ Ferronato spec
+
+% Electrical resistance of the coils (Ohms)
+s.resistance_ohms = [ 5 5 5 ];
 
 end
