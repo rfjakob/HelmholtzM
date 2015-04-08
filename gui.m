@@ -162,7 +162,8 @@ function checkbox_antiparallel_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of checkbox_antiparallel
 
 n=get(hObject,'Value');
-set_antiparallel(n);
+% For the clicking sound
+set_flux_density([0 0 0], n);
 
 % --- Executes on button press in pushbutton_remeasure.
 function pushbutton_remeasure_Callback(hObject, eventdata, handles)

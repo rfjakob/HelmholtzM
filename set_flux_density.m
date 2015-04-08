@@ -1,4 +1,4 @@
-function [ I ] = set_flux_density( targetB )
+function [ I ] = set_flux_density( targetB, antiparallel )
 % SET_FLUX_DENSITY Make the specified flux density happen, that is, set the
 % output currents so we achieve it. Takes the earth field into account.
 % I and targetB are x,y,z vectors.
@@ -18,6 +18,6 @@ I = setB ./ s.tesla_per_amp;
 %set_current(I);
 R = s.resistance_ohms;
 V = R .* I;
-set_voltage(V);
+set_voltage(V, antiparallel);
 
 end

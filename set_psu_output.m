@@ -14,8 +14,8 @@ for a=axes
 	if global_state.dryrun==0 && last_state(a)~=state
         f = sprintf('OP%d %d', global_state.instruments.psuout(a), state);
         fprintf(global_state.instruments.psu(a),f);
-		last_state(a)=state;
-	end
+        last_state(a)=state;
+    end
 end
-	
+
 end

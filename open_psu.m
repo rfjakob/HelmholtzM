@@ -10,14 +10,21 @@ function [ s, idn ] = open_psu( com_number )
 
     s = serial(sprintf('com%d',com_number));
     fopen(s);
+
+    % Reset the PSU. This also disables the outputs.
     fprintf(s,'*RST');
-    
+
+    % Get model number
     fprintf(s,'*IDN?');
     idn=fscanf(s);
-    
-    v=10;
-    i=0;
-    fprintf(s,'I1 %d\n',i);
-    fprintf(s,'V1 %d\n',v);
+
+    % Set to zero volts and set current limit
+    v = 0;
+    s = config();
+    i = s.current_limit;
+    for n=1:2
+        fprintf(s,'V%d %d\n',  v);
+        fprintf(s,'I%d %d\n',  i);
+    end
 end
 

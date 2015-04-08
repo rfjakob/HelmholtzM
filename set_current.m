@@ -28,7 +28,6 @@ for k=[1 2 3]
     
     if global_state.dryrun==0
         set_psu_output(k,1);
-        % TODO. Current control does not work.
         fprintf(global_state.instruments.psu(k), 'I%d %d\n', [global_state.instruments.psuout(k); I_psu(k)]);
     end
 end
