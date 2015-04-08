@@ -7,7 +7,7 @@ try
     fclose(instrfind);
 end
 
-s=user_config();
+s=config();
 
 try
     global_state.instruments.psuout(1) = s.psuout.x;

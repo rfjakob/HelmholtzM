@@ -22,7 +22,7 @@ else
     step_time=global_state.cycle_time/2;
 end
 
-s = user_config();
+s = config();
 
 maxcurr = (max(points(:,1:3))-global_state.earth_field) / s.tesla_per_amp;
 maxcurr = max(maxcurr);

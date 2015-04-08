@@ -1,6 +1,6 @@
 function [ ] = connect_mag03dam( )
 
-	s=user_config();
+	s=config();
 
     warning off MATLAB:loadlibrary:TypeNotFound
     %unloadlibrary('M201_SP')

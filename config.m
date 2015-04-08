@@ -1,5 +1,5 @@
-function [ s ] = user_config( )
-%_coilcontrol_settings Settings for coilcontrol that might need adjustment when
+function [ s ] = config()
+%CONFIG Settings for HelmholtzM that might need adjustment when
 % moving to a different computer
 
 s.psucom.x=7; % COM port number

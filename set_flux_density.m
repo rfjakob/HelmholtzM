@@ -5,7 +5,7 @@ function [ I ] = set_flux_density( targetB )
 
 global global_state;
 
-s = user_config();
+s = config();
 
 setB = targetB - global_state.earth_field;
 I = setB ./ s.tesla_per_amp;
