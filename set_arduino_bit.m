@@ -2,7 +2,7 @@ function [ ] = set_arduino_bit( bitname, BitValue )
 %SET_REDLAB_BIT Set a bit (or bit block) on the redlab unit by functional
 %name (see below).
 
-global config
+global global_state
 
 switch bitname
     case 'antiparallel'
@@ -18,13 +18,13 @@ switch bitname
 end
 
 for b=BitNum
-    if config.dryrun==1
+    if global_state.dryrun==1
         return
     end
     
     for bit=BitNum
-        fprintf(config.instruments.arduino, '%s\r\n', sprintf('P%d %d', [bit; BitValue]));
-        r = fgetl(config.instruments.arduino);
+        fprintf(global_state.instruments.arduino, '%s\r\n', sprintf('P%d %d', [bit; BitValue]));
+        r = fgetl(global_state.instruments.arduino);
         if ~strcmp(sprintf('OK\r'), r)
             error('Got error from arduino: %s', r);
         end

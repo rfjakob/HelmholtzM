@@ -2,7 +2,7 @@ function [  ] = plot_log( log )
 %PLOT_LOG Summary of this function goes here
 %   Detailed explanation goes here
 
-global config
+global global_state
 
 is=1e3; % I_Scale (mA)
 bs=1e6; % B_Scale (uT)

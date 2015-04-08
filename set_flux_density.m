@@ -3,11 +3,11 @@ function [ I ] = set_flux_density( targetB )
 % output currents so we achieve it. Takes the earth field into account.
 % I and targetB are x,y,z vectors.
 
-global config;
+global global_state;
 
 s = user_config();
 
-setB = targetB - config.earth_field;
+setB = targetB - global_state.earth_field;
 I = setB ./ s.tesla_per_amp;
 
 % For the 1300mm coils, current control does not work.

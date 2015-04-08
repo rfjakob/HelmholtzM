@@ -61,18 +61,18 @@ guidata(hObject, handles);
 % uiwait(handles.figure1);
 
 % Coilcontrol: Startup
-global config;
+global global_state;
 
-config.dryrun=0;
+global_state.dryrun=0;
 
-config.points_done=[];
-config.abort=0;
-config.earth_field=[0 0 0];
-config.mode=0;
-config.axes_enabled=[1 1 1];
+global_state.points_done=[];
+global_state.abort=0;
+global_state.earth_field=[0 0 0];
+global_state.mode=0;
+global_state.axes_enabled=[1 1 1];
 connect_instruments();                  % Connect PSUs
 calculate_points();                     % Calculate default points to do
-rotate3d(config.guihandles.axes_3d,'on');  % Enable mouse rotate
+rotate3d(global_state.guihandles.axes_3d,'on');  % Enable mouse rotate
 evalin('base','global log') % Make the log variable visible in the base workspace
 disp('coilcontrol ready')
 
@@ -93,15 +93,15 @@ function edit_steptime_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of edit_steptime as text
 %        str2double(get(hObject,'String')) returns contents of edit_steptime as a double
-global config;
+global global_state;
 n=str2double(get(hObject,'String'));
 if isnan(n) || n<0 || n>3600
     set(hObject,'BackgroundColor','red');
     n=NaN;
-    config.cycle_time=n;
+    global_state.cycle_time=n;
 else
     set(hObject,'BackgroundColor','white');
-    config.cycle_time=n;
+    global_state.cycle_time=n;
     calculate_points();
     plot_status();
 end
@@ -117,9 +117,9 @@ function edit_steptime_CreateFcn(hObject, eventdata, handles)
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 set(hObject,'BackgroundColor','white');
-global config;
+global global_state;
 n=str2double(get(hObject,'String'));
-config.cycle_time=n;
+global_state.cycle_time=n;
 
 function edit_stepsize_Callback(hObject, eventdata, handles)
 % hObject    handle to edit_stepsize (see GCBO)
@@ -128,14 +128,14 @@ function edit_stepsize_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of edit_stepsize as text
 %        str2double(get(hObject,'String')) returns contents of edit_stepsize as a double
-global config;
+global global_state;
 n=str2double(get(hObject,'String'));
 if isnan(n) || n<0 || n>360
     set(hObject,'BackgroundColor','red');
-    config.step_size=NaN;
+    global_state.step_size=NaN;
 else
     set(hObject,'BackgroundColor','white');
-    config.step_size=n;
+    global_state.step_size=n;
     calculate_points();
     plot_status();
 end
@@ -149,9 +149,9 @@ function edit_stepsize_CreateFcn(hObject, eventdata, handles)
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 set(hObject,'BackgroundColor','white');
-global config;
+global global_state;
 n=str2double(get(hObject,'String'));
-config.step_size=n;
+global_state.step_size=n;
 
 % --- Executes on button press in checkbox_antiparallel.
 function checkbox_antiparallel_Callback(hObject, eventdata, handles)
@@ -187,8 +187,8 @@ function axes_3d_CreateFcn(hObject, eventdata, handles)
 % handles    empty - handles not created until after all CreateFcns called
 
 % Hint: place code in OpeningFcn to populate axes_3d
-global config;
-config.guihandles.axes_3d=hObject;
+global global_state;
+global_state.guihandles.axes_3d=hObject;
 
 function edit_rotation_axis_Callback(hObject, eventdata, handles)
 % hObject    handle to edit_rotation_axis (see GCBO)
@@ -197,8 +197,8 @@ function edit_rotation_axis_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of edit_rotation_axis as text
 %        str2double(get(hObject,'String')) returns contents of edit_rotation_axis as a double
-global config;
-config.rotation_axes(1,:)=validate_axis(hObject);
+global global_state;
+global_state.rotation_axes(1,:)=validate_axis(hObject);
 calculate_points();
 
 % --- Executes during object creation, after setting all properties.
@@ -210,8 +210,8 @@ function edit_rotation_axis_CreateFcn(hObject, eventdata, handles)
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 set(hObject,'BackgroundColor','white');
-global config;
-config.rotation_axes(1,:)=validate_axis(hObject);
+global global_state;
+global_state.rotation_axes(1,:)=validate_axis(hObject);
 
 
 function edit_target_flux_density_Callback(hObject, eventdata, handles)
@@ -221,8 +221,8 @@ function edit_target_flux_density_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of edit_target_flux_density as text
 %        str2double(get(hObject,'String')) returns contents of edit_target_flux_density as a double
-global config;
-config.target_flux_density=validate_scalar(hObject)*1e-6; % uT
+global global_state;
+global_state.target_flux_density=validate_scalar(hObject)*1e-6; % uT
 calculate_points();
     
 
@@ -235,8 +235,8 @@ function edit_target_flux_density_CreateFcn(hObject, eventdata, handles)
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 set(hObject,'BackgroundColor','white');
-global config;
-config.target_flux_density=validate_scalar(hObject)*1e-6; % uT
+global global_state;
+global_state.target_flux_density=validate_scalar(hObject)*1e-6; % uT
 
 
 % --- Executes on button press in pushbutton_start_360_cycle.
@@ -244,8 +244,8 @@ function pushbutton_start_360_cycle_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_start_360_cycle (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global config
-% if norm(config.earth_field)==0 && config.dryrun==0
+global global_state
+% if norm(global_state.earth_field)==0 && global_state.dryrun==0
 %    disp('You have to compensate earth field first!')
 %    return
 %end
@@ -253,7 +253,7 @@ global log
 enable_gui(handles,'off');
 log=start_360_cycle();
 enable_gui(handles,'on');
-config.abort=0;
+global_state.abort=0;
 
 
 % --- Executes on button press in pushbutton_abort.
@@ -262,8 +262,8 @@ function pushbutton_abort_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-global config;
-config.abort=1;
+global global_state;
+global_state.abort=1;
 
 
 % --- Executes during object creation, after setting all properties.
@@ -272,8 +272,8 @@ function text_earthfield_CreateFcn(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
-global config;
-config.guihandles.text_earthfield=hObject;
+global global_state;
+global_state.guihandles.text_earthfield=hObject;
 
 
 
@@ -284,8 +284,8 @@ function edit_numberof_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of edit_numberof as text
 %        str2double(get(hObject,'String')) returns contents of edit_numberof as a double
-global config;
-config.number_of_cycles(2)=validate_uint(hObject);
+global global_state;
+global_state.number_of_cycles(2)=validate_uint(hObject);
 calculate_points();
 
 % --- Executes during object creation, after setting all properties.
@@ -297,8 +297,8 @@ function edit_numberof_CreateFcn(hObject, eventdata, handles)
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 set(hObject,'BackgroundColor','white');
-global config;
-config.number_of_cycles(2)=validate_uint(hObject);
+global global_state;
+global_state.number_of_cycles(2)=validate_uint(hObject);
 
 % --- Executes when selected object is changed in uipanel7.
 function uipanel7_SelectionChangeFcn(hObject, eventdata, handles)
@@ -308,21 +308,21 @@ function uipanel7_SelectionChangeFcn(hObject, eventdata, handles)
 %	OldValue: handle of the previously selected object or empty if none was selected
 %	NewValue: handle of the currently selected object
 % handles    structure with handles and user data (see GUIDATA)
-global config;
+global global_state;
 h=handles;
 s=get(eventdata.NewValue,'Tag');
 if strcmp(s,'radiobutton_onofffld')
-    config.mode=1;
+    global_state.mode=1;
     set(h.edit_stepsize,'Enable','off');
     set(h.edit_guardbefore,'Enable','on');
     set(h.edit_guardafter,'Enable','on');
 elseif strcmp(s,'radiobutton_onantifld')
-    config.mode=2;
+    global_state.mode=2;
     set(h.edit_stepsize,'Enable','off');
     set(h.edit_guardbefore,'Enable','off');
     set(h.edit_guardafter,'Enable','off');
 else
-    config.mode=0;
+    global_state.mode=0;
     set(h.edit_stepsize,'Enable','on');
     set(h.edit_guardbefore,'Enable','on');
     set(h.edit_guardafter,'Enable','on');
@@ -335,8 +335,8 @@ function text_eta_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to text_eta (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
-global config;
-config.guihandles.text_eta=hObject;
+global global_state;
+global_state.guihandles.text_eta=hObject;
 
 
 % --- Executes during object creation, after setting all properties.
@@ -346,8 +346,8 @@ function axes_2d_CreateFcn(hObject, eventdata, handles)
 % handles    empty - handles not created until after all CreateFcns called
 
 % Hint: place code in OpeningFcn to populate axes_2d
-global config;
-config.guihandles.axes_2d=hObject;
+global global_state;
+global_state.guihandles.axes_2d=hObject;
 
 
 
@@ -358,8 +358,8 @@ function edit_guardafter_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of edit_guardafter as text
 %        str2double(get(hObject,'String')) returns contents of edit_guardafter as a double
-global config;
-config.number_of_cycles(3)=validate_uint(hObject);
+global global_state;
+global_state.number_of_cycles(3)=validate_uint(hObject);
 calculate_points();
 
 % --- Executes during object creation, after setting all properties.
@@ -371,8 +371,8 @@ function edit_guardafter_CreateFcn(hObject, eventdata, handles)
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 set(hObject,'BackgroundColor','white');
-global config;
-config.number_of_cycles(3)=validate_uint(hObject);
+global global_state;
+global_state.number_of_cycles(3)=validate_uint(hObject);
 
 
 function edit_second_axis_Callback(hObject, eventdata, handles)
@@ -382,8 +382,8 @@ function edit_second_axis_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of edit_second_axis as text
 %        str2double(get(hObject,'String')) returns contents of edit_second_axis as a double
-global config;
-config.rotation_axes(2,:)=validate_axis(hObject);
+global global_state;
+global_state.rotation_axes(2,:)=validate_axis(hObject);
 calculate_points();
 
 % --- Executes during object creation, after setting all properties.
@@ -395,8 +395,8 @@ function edit_second_axis_CreateFcn(hObject, eventdata, handles)
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 set(hObject,'BackgroundColor','white');
-global config;
-config.rotation_axes(2,:)=validate_axis(hObject);
+global global_state;
+global_state.rotation_axes(2,:)=validate_axis(hObject);
 
 
 function edit_third_axis_Callback(hObject, eventdata, handles)
@@ -406,8 +406,8 @@ function edit_third_axis_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of edit_third_axis as text
 %        str2double(get(hObject,'String')) returns contents of edit_third_axis as a double
-global config;
-config.rotation_axes(3,:)=validate_axis(hObject);
+global global_state;
+global_state.rotation_axes(3,:)=validate_axis(hObject);
 calculate_points();
 
 % --- Executes during object creation, after setting all properties.
@@ -419,8 +419,8 @@ function edit_third_axis_CreateFcn(hObject, eventdata, handles)
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 set(hObject,'BackgroundColor','white');
-global config;
-config.rotation_axes(3,:)=validate_axis(hObject);
+global global_state;
+global_state.rotation_axes(3,:)=validate_axis(hObject);
 
 
 
@@ -431,8 +431,8 @@ function edit_guardbefore_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of edit_guardbefore as text
 %        str2double(get(hObject,'String')) returns contents of edit_guardbefore as a double
-global config;
-config.number_of_cycles(1)=validate_uint(hObject);
+global global_state;
+global_state.number_of_cycles(1)=validate_uint(hObject);
 calculate_points();
 
 % --- Executes during object creation, after setting all properties.
@@ -444,8 +444,8 @@ function edit_guardbefore_CreateFcn(hObject, eventdata, handles)
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 set(hObject,'BackgroundColor','white');
-global config;
-config.number_of_cycles(1)=validate_uint(hObject);
+global global_state;
+global_state.number_of_cycles(1)=validate_uint(hObject);
 
 
 % --- Executes on button press in checkbox_secondaxis.
@@ -457,8 +457,8 @@ function checkbox_secondaxis_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of checkbox_secondaxis
 v=get(hObject,'Value');
 set(handles.edit_second_axis,'Enable',bool_to_on_off(v));
-global config
-config.axes_enabled(2)=v;
+global global_state
+global_state.axes_enabled(2)=v;
 calculate_points();
 
 
@@ -471,8 +471,8 @@ function checkbox_thirdaxis_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of checkbox_thirdaxis
 v=get(hObject,'Value');
 set(handles.edit_third_axis,'Enable',bool_to_on_off(v));
-global config
-config.axes_enabled(3)=v;
+global global_state
+global_state.axes_enabled(3)=v;
 calculate_points();
 
 
@@ -481,7 +481,7 @@ function pushbutton_recompensate_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_recompensate (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global config;
+global global_state;
 enable_gui(handles,'off');
 drawnow
 set_psu_output([1 2 3],0);
@@ -489,7 +489,7 @@ n=measure_field();
 set(handles.text_earthfield,'String',mat2str(n*1e6,3));
 set(handles.text_earthfield,'BackgroundColor',[ 0.941176470588235   0.941176470588235   0.941176470588235]);
 drawnow
-config.earth_field=n;
+global_state.earth_field=n;
 set_flux_density([0 0 0]);
 pushbutton_remeasure_Callback([], eventdata, handles);
 plot_status();
@@ -504,8 +504,8 @@ function checkbox_measure_field_during_exp_Callback(hObject, eventdata, handles)
 
 % Hint: get(hObject,'Value') returns toggle state of checkbox_measure_field_during_exp
 v=get(hObject,'Value');
-global config
-config.measure_field_during_exp=v;
+global global_state
+global_state.measure_field_during_exp=v;
 
 
 % --- Executes during object creation, after setting all properties.

@@ -2,7 +2,7 @@ function [ ] = set_redlab_bit( bitname, BitValue )
 %SET_REDLAB_BIT Set a bit (or bit block) on the redlab unit by functional
 %name (see below).
 
-global config
+global global_state
 
 switch bitname
     case 'antiparallel'
@@ -20,7 +20,7 @@ end
 [BoardNum,~,PortType]=redlab_conf();
 
 for b=BitNum
-    if config.dryrun==1
+    if global_state.dryrun==1
         r=0;
     else
         % int cbDBitOut(int BoardNum, int PortType, int BitNum, unsigned short BitValue)

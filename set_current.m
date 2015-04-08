@@ -2,7 +2,7 @@ function [ output_args ] = set_current( I_coil )
 %SET_CURRENT Make the power supplies output the specified (I=[ Ix Iy Iz ])
 %current
 
-global config;
+global global_state;
 persistent I_old;
 
 if isempty(I_old)
@@ -26,10 +26,10 @@ for k=[1 2 3]
         set_arduino_bit([xyz(k) 'POL'],0)
     end
     
-    if config.dryrun==0
+    if global_state.dryrun==0
         set_psu_output(k,1);
         % TODO. Current control does not work.
-        fprintf(config.instruments.psu(k), 'I%d %d\n', [config.instruments.psuout(k); I_psu(k)]);
+        fprintf(global_state.instruments.psu(k), 'I%d %d\n', [global_state.instruments.psuout(k); I_psu(k)]);
     end
 end
 

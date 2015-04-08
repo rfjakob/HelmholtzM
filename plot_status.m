@@ -1,16 +1,16 @@
 function [ ] = plot_status( )
 %PLOT_STATUS Plot points to go and points done to the 3d axes plot
 
-global config;
+global global_state;
 
-ax3d=config.guihandles.axes_3d;
-ax2=config.guihandles.axes_2d;
+ax3d=global_state.guihandles.axes_3d;
+ax2=global_state.guihandles.axes_2d;
 
 path(path, 'oaxes')
 
-ef=config.earth_field*1e6; % uT
-pt=config.points_todo(:,1:3)*1e6;
-pd=config.points_done*1e6;
+ef=global_state.earth_field*1e6; % uT
+pt=global_state.points_todo(:,1:3)*1e6;
+pd=global_state.points_done*1e6;
 if isempty(pt)
    plot3(ax3d,nan,nan,nan);
    plot(ax2,nan,nan);
@@ -30,19 +30,19 @@ oaxes(ax3d,[0 0 0])
 axis(ax3d,'equal')
 set(ax3d, 'CameraViewAngle',7)
 
-if config.mode==0
-    step_time=config.cycle_time*config.step_size/360;
+if global_state.mode==0
+    step_time=global_state.cycle_time*global_state.step_size/360;
 else
-    step_time=config.cycle_time/2;
+    step_time=global_state.cycle_time/2;
 end
 
 if step_time==0
     step_time=0.05;
 end
 
-ap = config.points_todo(:,4); % Antiparallel bit (1=antiparallel, 0=normal)
+ap = global_state.points_todo(:,4); % Antiparallel bit (1=antiparallel, 0=normal)
 
-[actual_expected_field, would_be_field]=points_to_expected_field(config.points_todo);
+[actual_expected_field, would_be_field]=points_to_expected_field(global_state.points_todo);
 
 % So the stairs plot draws a line for the last point
 actual_expected_field(end+1,:)=actual_expected_field(end,:);
@@ -63,6 +63,6 @@ ylim([min(min(actual_expected_field)) max(max(actual_expected_field))]*1.1*1e6);
 
 eta=size(actual_expected_field,1)*step_time;
 eta=datestr(datenum(0,0,0,0,0,eta),'HH:MM:SS');
-set(config.guihandles.text_eta,'String',eta);
+set(global_state.guihandles.text_eta,'String',eta);
 
 end

@@ -1,30 +1,30 @@
 function [ log ] = start_360_cycle()
 %START360CYCLE Perform a 360 degree magnetic field rotation 
 
-global config;
+global global_state;
 
-config.points_done=[];
+global_state.points_done=[];
 
 log.field_expected=[];
 log.field_measured=[];
 log.field_set_antiparallel=[];
 log.current_expected=[];
 log.current_measured=[];
-log.earth_field=config.earth_field;
+log.earth_field=global_state.earth_field;
 log.swtime=[];
 log.antipar=[];
 
-points=config.points_todo;
+points=global_state.points_todo;
 l=length(points);
-if(config.mode==0)
-    step_time=config.cycle_time*config.step_size/360;
+if(global_state.mode==0)
+    step_time=global_state.cycle_time*global_state.step_size/360;
 else
-    step_time=config.cycle_time/2;
+    step_time=global_state.cycle_time/2;
 end
 
 s = user_config();
 
-maxcurr = (max(points(:,1:3))-config.earth_field) / s.tesla_per_amp;
+maxcurr = (max(points(:,1:3))-global_state.earth_field) / s.tesla_per_amp;
 maxcurr = max(maxcurr);
 if maxcurr < 0.5
     set_psu_range(1);
@@ -39,7 +39,7 @@ fprintf('Stepping through %d points:',l);
 t0=clock;
 for k=1:l
     fprintf(' %d',k);
-    if config.abort==1
+    if global_state.abort==1
         fprintf('\nUser abort in start_360_cycle')
         set_current([0 0 0]);
         break
@@ -57,7 +57,7 @@ for k=1:l
     log.field_set_antiparallel(end+1,:)=[rt1 field_set_antiparallel];
     log.current_expected(end+1,:)=[rt1 current_expected];
     
-    if config.measure_field_during_exp==1
+    if global_state.measure_field_during_exp==1
         %tic
         f=measure_field();
         %toc 1.5 seconds

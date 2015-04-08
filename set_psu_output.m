@@ -3,7 +3,7 @@ function [ ] = set_psu_output( axes, state )
 % supply(-ies) set in axes
 % Used for example before switching relays to prevent arcing.
 
-global config
+global global_state
 persistent last_state
 
 if isempty(last_state)
@@ -11,9 +11,9 @@ if isempty(last_state)
 end
 
 for a=axes
-	if config.dryrun==0 && last_state(a)~=state
-        f = sprintf('OP%d %d', config.instruments.psuout(a), state);
-        fprintf(config.instruments.psu(a),f);
+	if global_state.dryrun==0 && last_state(a)~=state
+        f = sprintf('OP%d %d', global_state.instruments.psuout(a), state);
+        fprintf(global_state.instruments.psu(a),f);
 		last_state(a)=state;
 	end
 end

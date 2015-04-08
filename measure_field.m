@@ -1,8 +1,8 @@
 function [ b_coilcoords ] = measure_field( )
 %measure_field Measure the current field flux density B using bartington mag03dam
 
-	global config;
-	if config.dryrun~=0
+	global global_state;
+	if global_state.dryrun~=0
 		b_coilcoords=[0 0 0]*1e-6;
 		return
 	end

@@ -8,8 +8,8 @@ function [ ] = connect_mag03dam( )
 	%unloadlibrary('M201_SP')
     [notfound,warnings]=loadlibrary('M201_SP.dll',@M201_SP_mHeader);
 
-	global config;
-	if config.dryrun~=0
+	global global_state;
+	if global_state.dryrun~=0
 		return
 	end
 

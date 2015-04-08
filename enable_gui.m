@@ -1,7 +1,7 @@
 function [ ] = enable_gui( handles, state )
 %ENABLE_GUI Unlock/lock user controls on the GUI.
 
-global config;
+global global_state;
 
 h=handles;
 
@@ -27,19 +27,19 @@ for k=l
 end
 
 % Step size stays disabled if mode is on-off or on-anti
-if config.mode~=0
+if global_state.mode~=0
     set(handles.edit_stepsize,'Enable','off');
 end
 % Antiparallel cycles are disabled in on-anti mode
-if config.mode==2
+if global_state.mode==2
     set(h.edit_guardbefore,'Enable','off');
     set(h.edit_guardafter,'Enable','off');
 end
 % Disabled axes stay disabled
-if config.axes_enabled(2)==0
+if global_state.axes_enabled(2)==0
     set(handles.edit_second_axis,'Enable','off');
 end
-if config.axes_enabled(3)==0
+if global_state.axes_enabled(3)==0
     set(handles.edit_third_axis,'Enable','off');
 end
 
@@ -55,7 +55,7 @@ set(h.pushbutton_abort,'Enable',opstate)
 
 % Disable/Enable axes rotation. Throws errors if user rotates while cycle
 % is running.
-rotate3d(config.guihandles.axes_3d,state);    
+rotate3d(global_state.guihandles.axes_3d,state);    
 
 
 end

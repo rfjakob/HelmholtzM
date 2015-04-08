@@ -3,8 +3,8 @@ function [ actual_expected_field, would_be_field ] = points_to_expected_field( p
 %expected field. That is, earth field when antiparallel, xyz field when
 %normal.
 
-global config
-ef=config.earth_field;
+global global_state
+ef=global_state.earth_field;
 ap=points(:,4);
 xyz=points(:,1:3);
 nap = ~ap;
