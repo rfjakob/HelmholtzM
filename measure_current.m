@@ -12,13 +12,20 @@ for k=[1 2 3]
     psu = global_state.instruments.psu(k);
     output = global_state.instruments.psuout(k);
 
+    tic
     fprintf(psu, 'I%dO?\n', output);
     reply = fgetl(psu);
+    delay_ms = toc * 1000;
+    if delay_ms > 100
+        fprintf('Slow current measurement: %d ms\n', delay_ms);
+    end
     if isempty(reply)
         errordlg('Could not get current');
         error('Could not get current')
     end
-    I(k) = sscanf(reply, '%fA');
+    value = sscanf(reply, '%fA');
+    I(k) = value;
+    %fprintf('current: %d mA\n', value*1000);
 end
 
 end % function

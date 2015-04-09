@@ -74,17 +74,18 @@ for k=1:l
         t2(6)=t2(6)+k*step_time;
         
         % Use the waiting time to measure stuff
-        % Does this really add value?
-        %while etime(t2,clock)>0.1
-        %    pause(0.05)
-        %    c=measure_current().*sign(current_expected);
-        %    log.current_measured(end+1,:)=[etime(clock,t0) c];
-        %    
-        %    diff=max(abs(c-current_expected));
-        %    if diff<0.001 || diff/max(abs(current_expected))>0.05
-        %        break
-        %    end
-        %end
+        % This helps a lot in on-off switching mode
+        while etime(t2,clock)>0.1
+            %fprintf('m');
+            pause(0.05)
+            c=measure_current().*sign(current_expected);
+            log.current_measured(end+1,:)=[etime(clock,t0) c];
+            
+            %diff=max(abs(c-current_expected));
+            %if diff<0.001 || diff/max(abs(current_expected))>0.05
+            %    break
+            %end
+        end
         
         p=etime(t2,clock);
         if p<0
