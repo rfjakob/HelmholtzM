@@ -69,7 +69,7 @@ global_state.points_done=[];
 global_state.abort=0;
 global_state.earth_field=[0 0 0];
 global_state.mode=0;
-global_state.axes_enabled=[1 1 1];
+global_state.axes_enabled=[1 0 0];
 connect_instruments();                  % Connect PSUs
 calculate_points();                     % Calculate default points to do
 rotate3d(global_state.guihandles.axes_3d,'on');  % Enable mouse rotate

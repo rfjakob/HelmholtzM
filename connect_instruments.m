@@ -18,7 +18,7 @@ catch e
 end
 
 try
-    global_state.instruments.psuout(1) = s.psuout.y;
+    global_state.instruments.psuout(2) = s.psuout.y;
     if s.psucom.y == s.psucom.x
         global_state.instruments.psu(2) = global_state.instruments.psu(1);
     else
@@ -51,8 +51,8 @@ catch e
 end
 
 
-set_psu_range(1);
-set_psu_output([1 2 3], 1);
+% set_psu_range(1);
+% set_psu_output([1 2 3], 1);
 
 % connect_mag03dam();
     

@@ -21,15 +21,17 @@ s.mag03com=2;
 s.arduino = 8;
 
 % flux density in the coil center (tesla) per amp of current in the coils
-s.tesla_per_amp =  [253 250 250] * 1e-6 * 2;
+s.tesla_per_amp =  [200 200 200] * 1e-6 * 2;
 %                                         ^ Spec is for one strand of bifilar wire
 %                                    ^ uT
 %                    ^   ^   ^ Ferronato spec
+% http://www.serviciencia.es/BH1300-i1.htm
 
 % Electrical resistance of the coils (Ohms, x y z)
-s.resistance_ohms = [ 1 1 1 ];
+s.resistance_ohms = [ 4.64 4.43 4.16 ];
 
 % PSU-side current limit - protection in the event of misconfiguration
-s.current_limit = 5;
+s.current_limit = 4;
+% 4 amps ... maximum steady state current of coils
 
 end

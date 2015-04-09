@@ -7,9 +7,17 @@ global global_state
 is=1e3; % I_Scale (mA)
 bs=1e6; % B_Scale (uT)
 xyz='XYZ';
+
+if ~ishandle(1)
+    % Set a bigger window size when the plot is opened
+    hFig=figure(1);
+    set(hFig, 'Position', [100 100 800 800])
+end
+
 figure(1)
+
 for k=1:3
-    a=subplot(3,1,k);
+    a=subplot(4,1,k+1);
     AX(1)=a;
     AX(2)=a;
     
@@ -29,15 +37,31 @@ for k=1:3
     hfa=stairs(AX(1), log.field_set_antiparallel(:,1), log.field_set_antiparallel(:,k+1)*bs,'k:');
     hfe=stairs(AX(1), log.field_expected(:,1),         log.field_expected(:,k+1)*bs);
     
-    title(xyz(k));
-    ylabel('{\mu}T / mA')
+    %title(xyz(k));
+    %ylabel('{\mu}T / mA')
+    ylabel(xyz(k));
     grid on;
-    if k==1
-        legend([hfe;hfm;hfa;hce;hcm],'Expected flux density ({\mu}T)','Measured flux density ({\mu}T)','Antipar. pseudo flux densiy ({\mu}T)' ...
-            ,'Expected current (mA)','Measured current (mA)', 'Location','NorthWest')
-    elseif k==3
+    if k == 3
          xlabel('Runtime (seconds)');
     end
     hold off
-end
+end % for
 
+% Add legend over top dummy plot
+a=subplot(4,1,1);
+AX(1)=a;
+AX(2)=a;
+hce=plot(  AX(2), 0, 0, 'ro');
+hold on
+hcm=plot(  AX(2), 0, 0, 'r.'); 
+hfm=plot(  AX(1), 0, 0, 'b.');
+hfa=stairs(AX(1), 0, 0, 'k:');
+hfe=stairs(AX(1), [0 1], [0 0]);
+legend([hfe;hfm;hfa;hce;hcm] ...
+    ,'Expected flux density ({\mu}T)','Measured flux density ({\mu}T)' ...
+    ,'Antipar. pseudo flux densiy ({\mu}T)' ...
+    ,'Expected current (mA)','Measured current (mA)' ...
+    , 'Location','NorthWest')
+ylabel('legend');
+        
+end % function

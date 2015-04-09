@@ -12,9 +12,13 @@ for k=[1 2 3]
     psu = global_state.instruments.psu(k);
     output = global_state.instruments.psuout(k);
 
-    fprintf(psu, 'I%d?\n', output);
+    fprintf(psu, 'I%dO?\n', output);
     reply = fgetl(psu);
-    I(k) = sscanf(reply, sprintf('I%d %f', output));
+    if isempty(reply)
+        errordlg('Could not get current');
+        error('Could not get current')
+    end
+    I(k) = sscanf(reply, '%fA');
 end
 
 end % function

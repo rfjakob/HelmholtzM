@@ -33,6 +33,7 @@ else
 end
 
 set_flux_density([0 0 0], 0);
+set_psu_output([1 2 3], 1);
 
 fprintf('Stepping through %d points:',l);
 t0=clock;
@@ -40,7 +41,6 @@ for k=1:l
     fprintf(' %d',k);
     if global_state.abort==1
         fprintf('\nUser abort in start_360_cycle')
-        set_current([0 0 0]);
         break
     end
     tsw=clock;    
@@ -74,16 +74,17 @@ for k=1:l
         t2(6)=t2(6)+k*step_time;
         
         % Use the waiting time to measure stuff
-        while etime(t2,clock)>0.1
-            pause(0.05)
-            c=measure_current().*sign(current_expected);
-            log.current_measured(end+1,:)=[etime(clock,t0) c];
-            
-            diff=max(abs(c-current_expected));
-            if diff<0.001 || diff/max(abs(current_expected))>0.05
-                break
-            end
-        end
+        % Does this really add value?
+        %while etime(t2,clock)>0.1
+        %    pause(0.05)
+        %    c=measure_current().*sign(current_expected);
+        %    log.current_measured(end+1,:)=[etime(clock,t0) c];
+        %    
+        %    diff=max(abs(c-current_expected));
+        %    if diff<0.001 || diff/max(abs(current_expected))>0.05
+        %        break
+        %    end
+        %end
         
         p=etime(t2,clock);
         if p<0
@@ -96,4 +97,4 @@ for k=1:l
 end
 fprintf('\n');
 
-set_flux_density([0 0 0]);
+set_psu_output([1 2 3], 0);

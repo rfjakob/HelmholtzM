@@ -20,11 +20,11 @@ function [ s, idn ] = open_psu( com_number )
 
     % Set to zero volts and set current limit
     v = 0;
-    s = config();
-    i = s.current_limit;
+    conf = config();
+    i = conf.current_limit;
     for n=1:2
-        fprintf(s,'V%d %d\n',  v);
-        fprintf(s,'I%d %d\n',  i);
+        fprintf(s,'V%d %d\n', [n; v]);
+        fprintf(s,'I%d %d\n', [n; i]);
     end
 end
 
