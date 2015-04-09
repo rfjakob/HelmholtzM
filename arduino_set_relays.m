@@ -37,5 +37,7 @@ for n=1:6
     arduino_set_pin(n-1, new_state(n));
 end
 
+last_state = new_state;
+
 end % function
 

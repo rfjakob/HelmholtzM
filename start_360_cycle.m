@@ -45,7 +45,16 @@ for k=1:l
     end
     tsw=clock;    
     
-    current_expected=set_flux_density(points(k,1:3), points(k,4));
+    if global_state.mode == 2 % On-Anti switching
+        % Disable PSU outputs before switching relays to prevent arcing
+        set_psu_output([1 2 3], 0);
+        pause(0.1)
+        current_expected=set_flux_density(points(k,1:3), points(k,4));
+        set_psu_output([1 2 3], 1);
+    else
+        current_expected=set_flux_density(points(k,1:3), points(k,4));
+    end
+
     [field_expected, field_set_antiparallel]=points_to_expected_field(points(k,:));
     
     rt1=etime(clock,t0);
