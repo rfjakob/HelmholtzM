@@ -162,6 +162,7 @@ function checkbox_antiparallel_Callback(hObject, eventdata, handles)
 global global_state;
 n=get(hObject,'Value');
 global_state.antiparallel = n;
+calculate_points();
 
 % --- Executes on button press in pushbutton_remeasure.
 function pushbutton_remeasure_Callback(hObject, eventdata, handles)

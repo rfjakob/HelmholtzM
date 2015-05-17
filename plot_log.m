@@ -34,7 +34,7 @@ for k=1:3
     hcm=plot(  AX(2), log.current_measured(:,1),       log.current_measured(:,k+1)*is,'r.'); 
     
     hfm=plot(  AX(1), log.field_measured(:,1),         log.field_measured(:,k+1)*bs,'b.');
-    hfa=stairs(AX(1), log.field_set_antiparallel(:,1), log.field_set_antiparallel(:,k+1)*bs,'k:');
+    hfa=stairs(AX(1), log.field_set_antiparallel(:,1), log.field_set_antiparallel(:,k+1)*bs,'k--');
     hfe=stairs(AX(1), log.field_expected(:,1),         log.field_expected(:,k+1)*bs);
     
     %title(xyz(k));
@@ -55,7 +55,7 @@ hce=plot(  AX(2), 0, 0, 'ro');
 hold on
 hcm=plot(  AX(2), 0, 0, 'r.'); 
 hfm=plot(  AX(1), 0, 0, 'b.');
-hfa=stairs(AX(1), 0, 0, 'k:');
+hfa=stairs(AX(1), 0, 0, 'k--');
 hfe=stairs(AX(1), [0 1], [0 0]);
 legend([hfe;hfm;hfa;hce;hcm] ...
     ,'Expected flux density (uT)','Measured flux density (uT)' ...
