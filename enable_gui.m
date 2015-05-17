@@ -6,41 +6,15 @@ global global_state;
 h=handles;
 
 % Set these controls to <state>
-l=[h.pushbutton_remeasure
-    h.pushbutton_start_360_cycle
+l=[ h.pushbutton_start_360_cycle
     h.edit_rotation_axis
-    h.edit_second_axis
-    h.edit_third_axis
     h.edit_stepsize
     h.edit_steptime
     h.edit_target_flux_density
-    h.edit_guardbefore
-    h.edit_guardafter
-    h.radiobutton_rotfld
-    h.radiobutton_onofffld
-    h.edit_numberof
-    h.checkbox_secondaxis
-    h.checkbox_thirdaxis];
+    h.edit_numberof];
 
 for k=l
     set(k,'Enable',state);
-end
-
-% Step size stays disabled if mode is on-off or on-anti
-if global_state.mode~=0
-    set(handles.edit_stepsize,'Enable','off');
-end
-% Antiparallel cycles are disabled in on-anti mode
-if global_state.mode==2
-    set(h.edit_guardbefore,'Enable','off');
-    set(h.edit_guardafter,'Enable','off');
-end
-% Disabled axes stay disabled
-if global_state.axes_enabled(2)==0
-    set(handles.edit_second_axis,'Enable','off');
-end
-if global_state.axes_enabled(3)==0
-    set(handles.edit_third_axis,'Enable','off');
 end
 
 % Abort button gets opposite state

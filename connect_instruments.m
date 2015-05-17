@@ -37,17 +37,19 @@ catch e
     rethrow(e);
 end
 
-try
-    global_state.instruments.arduino = serial(sprintf('com%d', s.arduino));
-    fopen(global_state.instruments.arduino);
-    fprintf(global_state.instruments.arduino, '%s\r\n', 'RESET');
-    r = fgetl(global_state.instruments.arduino);
-    if ~strcmp(sprintf('OK\r'), r)
-       error('Got error from arduino: %s', r);
+if global_state.dryrun == 0
+    try
+        global_state.instruments.arduino = serial(sprintf('com%d', s.arduino));
+        fopen(global_state.instruments.arduino);
+        fprintf(global_state.instruments.arduino, '%s\r\n', 'RESET');
+        r = fgetl(global_state.instruments.arduino);
+        if ~strcmp(sprintf('OK\r'), r)
+           error('Got error from arduino: %s', r);
+        end
+    catch e
+        errordlg('Could not connect to Arduino');
+        rethrow(e);
     end
-catch e
-    errordlg('Could not connect to Arduino');
-    rethrow(e);
 end
 
 

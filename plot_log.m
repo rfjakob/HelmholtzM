@@ -38,7 +38,7 @@ for k=1:3
     hfe=stairs(AX(1), log.field_expected(:,1),         log.field_expected(:,k+1)*bs);
     
     %title(xyz(k));
-    %ylabel('{\mu}T / mA')
+    %ylabel('uT / mA')
     ylabel(xyz(k));
     grid on;
     if k == 3
@@ -58,8 +58,8 @@ hfm=plot(  AX(1), 0, 0, 'b.');
 hfa=stairs(AX(1), 0, 0, 'k:');
 hfe=stairs(AX(1), [0 1], [0 0]);
 legend([hfe;hfm;hfa;hce;hcm] ...
-    ,'Expected flux density ({\mu}T)','Measured flux density ({\mu}T)' ...
-    ,'Antipar. pseudo flux densiy ({\mu}T)' ...
+    ,'Expected flux density (uT)','Measured flux density (uT)' ...
+    ,'Antipar. pseudo flux densiy (uT)' ...
     ,'Expected current (mA)','Measured current (mA)' ...
     , 'Location','NorthWest')
 ylabel('legend');

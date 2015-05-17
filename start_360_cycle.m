@@ -16,11 +16,6 @@ log.antipar=[];
 
 points=global_state.points_todo;
 l=length(points);
-if(global_state.mode==0)
-    step_time=global_state.cycle_time*global_state.step_size/360;
-else
-    step_time=global_state.cycle_time/2;
-end
 
 s = config();
 
@@ -45,16 +40,8 @@ for k=1:l
     end
     tsw=clock;    
     
-    if global_state.mode == 2 % On-Anti switching
-        % Disable PSU outputs before switching relays to prevent arcing
-        set_psu_output([1 2 3], 0);
-        pause(0.1)
-        current_expected=set_flux_density(points(k,1:3), points(k,4));
-        set_psu_output([1 2 3], 1);
-    else
-        current_expected=set_flux_density(points(k,1:3), points(k,4));
-    end
-
+    current_expected=set_flux_density(points(k,1:3), points(k,4));
+    
     [field_expected, field_set_antiparallel]=points_to_expected_field(points(k,:));
     
     rt1=etime(clock,t0);
@@ -78,9 +65,9 @@ for k=1:l
     
     plot_log(log);
     
-    if step_time>0
+    if global_state.step_time > 0
         t2=t0;
-        t2(6)=t2(6)+k*step_time;
+        t2(6)=t2(6)+k*global_state.step_time;
         
         % Use the waiting time to measure stuff
         % This helps a lot in on-off switching mode

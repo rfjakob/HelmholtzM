@@ -30,16 +30,6 @@ oaxes(ax3d,[0 0 0])
 axis(ax3d,'equal')
 set(ax3d, 'CameraViewAngle',7)
 
-if global_state.mode==0
-    step_time=global_state.cycle_time*global_state.step_size/360;
-else
-    step_time=global_state.cycle_time/2;
-end
-
-if step_time==0
-    step_time=0.05;
-end
-
 ap = global_state.points_todo(:,4); % Antiparallel bit (1=antiparallel, 0=normal)
 
 [actual_expected_field, would_be_field]=points_to_expected_field(global_state.points_todo);
@@ -48,20 +38,20 @@ ap = global_state.points_todo(:,4); % Antiparallel bit (1=antiparallel, 0=normal
 actual_expected_field(end+1,:)=actual_expected_field(end,:);
 would_be_field(end+1,:)=would_be_field(end,:);
 
-t=(0:size(actual_expected_field,1)-1)*step_time;
+t=(0:size(actual_expected_field,1)-1)*global_state.step_time;
 t=t.';
 t3=[t t t];
 h1=stairs(ax2,t3,would_be_field*1e6,'k:');
 hold(ax2,'on');
 h2=stairs(ax2,t3,actual_expected_field*1e6);
-ylabel(ax2,'Flux density ({\mu}T)');
+ylabel(ax2,'Flux density (uT)');
 xlabel(ax2,'t (s)');
 grid(ax2,'on');
 hold(ax2,'off');
 legend([h2; h1(1)],'X','Y','Z','Antipar.');
 ylim([min(min(actual_expected_field)) max(max(actual_expected_field))]*1.1*1e6);
 
-eta=size(actual_expected_field,1)*step_time;
+eta=size(actual_expected_field,1)*global_state.step_time;
 eta=datestr(datenum(0,0,0,0,0,eta),'HH:MM:SS');
 set(global_state.guihandles.text_eta,'String',eta);
 

@@ -2,6 +2,9 @@ function [ s ] = config()
 %CONFIG Settings for HelmholtzM that might need adjustment when
 % moving to a different computer
 
+% Disable instruments
+s.dryrun = 1;
+
 % X coils
 s.psucom.x=7; % COM port number
 s.psuout.x=1; % Output channel (for dual output PSUs)

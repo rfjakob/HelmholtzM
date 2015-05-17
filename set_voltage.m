@@ -11,7 +11,9 @@ arduino_set_relays(V, antiparallel);
 V = abs(V);
 
 for k=[1 2 3]
-    fprintf(global_state.instruments.psu(k), 'V%d %d\n', [global_state.instruments.psuout(k); V(k)]);
+    if global_state.dryrun == 0
+        fprintf(global_state.instruments.psu(k), 'V%d %d\n', [global_state.instruments.psuout(k); V(k)]);
+    end
 end
 
 end % function
