@@ -6,8 +6,6 @@ global global_state;
 ax3d=global_state.guihandles.axes_3d;
 ax2=global_state.guihandles.axes_2d;
 
-path(path, 'oaxes')
-
 ef=global_state.earth_field*1e6; % uT
 pt=global_state.points_todo(:,1:3)*1e6;
 pd=global_state.points_done*1e6;

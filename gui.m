@@ -22,7 +22,7 @@ function varargout = gui(varargin)
 
 % Edit the above text to modify the response to help gui
 
-% Last Modified by GUIDE v2.5 18-May-2015 19:35:27
+% Last Modified by GUIDE v2.5 18-May-2015 21:30:10
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -406,3 +406,18 @@ global_state.guihandles.axes_z=hObject;
 function axes_legend_CreateFcn(hObject, eventdata, handles)
 global global_state;
 global_state.guihandles.axes_legend=hObject;
+
+
+function axes_x2_CreateFcn(hObject, eventdata, handles)
+global global_state;
+global_state.guihandles.axes_x2=hObject;
+
+
+function axes_y2_CreateFcn(hObject, eventdata, handles)
+global global_state;
+global_state.guihandles.axes_y2=hObject;
+
+
+function axes_z2_CreateFcn(hObject, eventdata, handles)
+global global_state;
+global_state.guihandles.axes_z2=hObject;

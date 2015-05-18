@@ -71,16 +71,22 @@ for k=1:l
         
         % Use the waiting time to measure stuff
         % This helps a lot in on-off switching mode
-        while etime(t2,clock)>0.1
+        while etime(t2,clock)>0.3
             %fprintf('m');
-            pause(0.05)
+            pause(0.1)
             c=measure_current().*sign(current_expected);
             log.current_measured(end+1,:)=[etime(clock,t0) c];
+            plot_log(log);
             
             %diff=max(abs(c-current_expected));
             %if diff<0.001 || diff/max(abs(current_expected))>0.05
             %    break
             %end
+
+            if global_state.abort==1
+                fprintf('\nUser abort in start_360_cycle')
+                break
+            end
         end
         
         p=etime(t2,clock);

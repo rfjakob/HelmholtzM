@@ -4,7 +4,7 @@ function [ I ] = measure_current( )
 global global_state;
 
 if global_state.dryrun==1
-    I=[0 0 0];
+    I=[0.001 0.001 0.001];
     return
 end
 

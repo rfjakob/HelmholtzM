@@ -8,13 +8,14 @@ is=1e3; % I_Scale (mA)
 bs=1e6; % B_Scale (uT)
 xyz='XYZ';
 
-axes_lxyz=[global_state.guihandles.axes_legend global_state.guihandles.axes_x ...
+axes_xyz=[global_state.guihandles.axes_x ...
     global_state.guihandles.axes_y global_state.guihandles.axes_z];
+axes_xyz2=[global_state.guihandles.axes_x2 ...
+    global_state.guihandles.axes_y2 global_state.guihandles.axes_z2];
 
 for k=1:3
-    a=axes_lxyz(k+1);
-    AX(1)=a;
-    AX(2)=a;
+    AX(1)=axes_xyz(k);
+    AX(2)=axes_xyz2(k);
     
 %     [AX,H1,H2]=plotyy(0,0,0,0);
 %     xlim(AX(1),'auto')
@@ -24,40 +25,48 @@ for k=1:3
   
     % http://blogs.mathworks.com/pick/2006/05/26/plotting-multiple-y-scales/ comment #6
     %set(AX(2),'nextplot','add');
-    hce=plot(  AX(2), log.current_expected(:,1),       log.current_expected(:,k+1)*is,'ro');
-    hold on
+    hce=stairs(  AX(2), log.current_expected(:,1),       log.current_expected(:,k+1)*is,'r');
+    hold(AX(2), 'on')
     hcm=plot(  AX(2), log.current_measured(:,1),       log.current_measured(:,k+1)*is,'r.'); 
+    set(AX(2), 'YAxisLocation','right');
+    set(AX(2), 'Color','none');
+    set(AX(2), 'YColor','r');
+    ylabel(AX(2), 'mA')
+    hold(AX(2), 'off')
     
     hfm=plot(  AX(1), log.field_measured(:,1),         log.field_measured(:,k+1)*bs,'b.');
-    hfa=stairs(AX(1), log.field_set_antiparallel(:,1), log.field_set_antiparallel(:,k+1)*bs,'k--');
+    hold(AX(1), 'on')
+    %hfa=stairs(AX(1), log.field_set_antiparallel(:,1), log.field_set_antiparallel(:,k+1)*bs,'k--');
     hfe=stairs(AX(1), log.field_expected(:,1),         log.field_expected(:,k+1)*bs);
+    set(AX(1), 'YColor','b');
     
     %title(xyz(k));
-    %ylabel('uT / mA')
-    ylabel(a, xyz(k));
-    grid(a, 'on');
+    ylabel(AX(1), 'uT')
+    title(AX(1), xyz(k));
+    %grid(AX(1), 'on');
     if k == 3
-         xlabel(a, 'Runtime (seconds)');
+         xlabel(AX(1), 'Runtime (seconds)');
     end
-    hold off
+    hold(AX(1), 'off');
 end % for
 
 % Add legend over top dummy plot
-a = axes_lxyz(1);
-AX(1)=a;
-AX(2)=a;
-hce=plot(  AX(2), 0, 0, 'ro');
-hold on
-hcm=plot(  AX(2), 0, 0, 'r.'); 
-hfm=plot(  AX(1), 0, 0, 'b.');
-hfa=stairs(AX(1), 0, 0, 'k--');
-hfe=stairs(AX(1), [0 1], [0 0]);
-legend([hfe;hfm;hfa;hce;hcm] ...
-    ,'Expected flux density (uT)','Measured flux density (uT)' ...
-    ,'Antipar. pseudo flux densiy (uT)' ...
-    ,'Expected current (mA)','Measured current (mA)' ...
-    , 'Location','NorthWest')
-ylabel('legend');
+a = global_state.guihandles.axes_legend;
+hold(a, 'on');
+hfe=stairs(a, [0 1], [0 0]);
+hfm=plot(  a, 0, 0, 'b.');
+%hfa=stairs(a, 0, 0, 'k--');
+hce=stairs(  a, 0, 0,'r');
+hcm=plot(  a, 0, 0, 'r.');
+%legend([hfe;hfm;hfa;hce;hcm] ...
+legend([hfe;hfm;hce;hcm] ...
+    ,'Expected flux density' ...
+    ,'Measured flux density' ...
+    ... ,'Antipar. pseudo flux densiy (uT)'
+    ,'Expected current' ...
+    ,'Measured current' ...
+    ,'Location','NorthWest')
+ylabel(a, 'legend');
 set(a, 'XTickLabel', []); % disable tick labeling
 set(a, 'XTick', []);
 set(a, 'YTickLabel', []);
