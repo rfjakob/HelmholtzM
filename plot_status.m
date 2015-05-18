@@ -17,18 +17,17 @@ if isempty(pt)
    return
 end
 
-if isempty(pd)
-    plot3(ax3d,ef(1),ef(2),ef(3),'og',pt(:,1),pt(:,2),pt(:,3),'ob');
-else
-    plot3(ax3d,ef(1),ef(2),ef(3),'og',pt(:,1),pt(:,2),pt(:,3),'ob',pd(:,1),pd(:,2),pd(:,3),'xr')
-end
+origin = pt(:,1) * 0;
+quiver3(ax3d, origin, origin, origin, pt(:,1), pt(:,2), pt(:,3));
+xlabel(ax3d, 'X')
+ylabel(ax3d, 'Y')
+zlabel(ax3d, 'Z')
 
-
-set(ax3d,'XColor','blue','YColor','green', 'ZColor','red')
-oaxes(ax3d,[0 0 0])
-axis(ax,'vis3d')
-axis(ax3d,'equal')
-set(ax3d, 'CameraViewAngle',7)
+mag_max=max(max(abs(global_state.points_todo(:,1:3))))*1.1*1e6; % 1.1 ... add a bit of headroom
+                                                                % 1e6 ... uT
+xlim(ax3d, [-mag_max mag_max]);
+ylim(ax3d, [-mag_max mag_max]);
+zlim(ax3d, [-mag_max mag_max]);
 
 ap = global_state.points_todo(:,4); % Antiparallel bit (1=antiparallel, 0=normal)
 
@@ -50,9 +49,7 @@ grid(ax2,'on');
 hold(ax2,'off');
 legend([h2; h1(1)],'X','Y','Z','Antipar.');
 
-ymax=max(max(global_state.points_todo(:,1:3)))*1.1*1e6; % 1.1 ... add a bit of headroom
-ymin=min(min(global_state.points_todo(:,1:3)))*1.1*1e6; % 1e6 ... uT
-ylim([ymin ymax]);
+ylim(ax2, [-mag_max mag_max]);
 
 eta=size(actual_expected_field,1)*global_state.step_time;
 eta=datestr(datenum(0,0,0,0,0,eta),'HH:MM:SS');

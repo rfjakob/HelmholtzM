@@ -34,7 +34,7 @@ for k=1:3
     
     %title(xyz(k));
     %ylabel('uT / mA')
-    ylabel(a, [xyz(k) ' axis']);
+    ylabel(a, xyz(k));
     grid(a, 'on');
     if k == 3
          xlabel(a, 'Runtime (seconds)');
