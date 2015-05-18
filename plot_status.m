@@ -26,7 +26,7 @@ end
 
 set(ax3d,'XColor','blue','YColor','green', 'ZColor','red')
 oaxes(ax3d,[0 0 0])
-%axis(ax,'vis3d')
+axis(ax,'vis3d')
 axis(ax3d,'equal')
 set(ax3d, 'CameraViewAngle',7)
 

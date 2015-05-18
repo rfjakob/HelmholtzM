@@ -22,7 +22,7 @@ function varargout = gui(varargin)
 
 % Edit the above text to modify the response to help gui
 
-% Last Modified by GUIDE v2.5 03-Sep-2012 13:50:25
+% Last Modified by GUIDE v2.5 18-May-2015 19:35:27
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -71,6 +71,7 @@ global_state.abort=0;
 global_state.earth_field=[0 0 0];
 global_state.mode=OperatingMode.Rotation;
 global_state.antiparallel = 0;
+global_state.measure_field_during_exp = 0;
 connect_instruments();                  % Connect PSUs
 calculate_points();                     % Calculate default points to do
 rotate3d(global_state.guihandles.axes_3d,'on');  % Enable mouse rotate
@@ -381,3 +382,27 @@ function checkbox_measure_field_during_exp_CreateFcn(hObject, eventdata, handles
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 checkbox_measure_field_during_exp_Callback(hObject, eventdata, handles)
+
+
+% --- Executes during object creation, after setting all properties.
+function axes_x_CreateFcn(hObject, eventdata, handles)
+global global_state;
+global_state.guihandles.axes_x=hObject;
+
+
+% --- Executes during object creation, after setting all properties.
+function axes_y_CreateFcn(hObject, eventdata, handles)
+global global_state;
+global_state.guihandles.axes_y=hObject;
+
+
+% --- Executes during object creation, after setting all properties.
+function axes_z_CreateFcn(hObject, eventdata, handles)
+global global_state;
+global_state.guihandles.axes_z=hObject;
+
+
+% --- Executes during object creation, after setting all properties.
+function axes_legend_CreateFcn(hObject, eventdata, handles)
+global global_state;
+global_state.guihandles.axes_legend=hObject;

@@ -8,16 +8,11 @@ is=1e3; % I_Scale (mA)
 bs=1e6; % B_Scale (uT)
 xyz='XYZ';
 
-if ~ishandle(1)
-    % Set a bigger window size when the plot is opened
-    hFig=figure(1);
-    set(hFig, 'Position', [100 100 800 800])
-end
-
-figure(1)
+axes_lxyz=[global_state.guihandles.axes_legend global_state.guihandles.axes_x ...
+    global_state.guihandles.axes_y global_state.guihandles.axes_z];
 
 for k=1:3
-    a=subplot(4,1,k+1);
+    a=axes_lxyz(k+1);
     AX(1)=a;
     AX(2)=a;
     
@@ -39,16 +34,16 @@ for k=1:3
     
     %title(xyz(k));
     %ylabel('uT / mA')
-    ylabel(xyz(k));
-    grid on;
+    ylabel(a, [xyz(k) ' axis']);
+    grid(a, 'on');
     if k == 3
-         xlabel('Runtime (seconds)');
+         xlabel(a, 'Runtime (seconds)');
     end
     hold off
 end % for
 
 % Add legend over top dummy plot
-a=subplot(4,1,1);
+a = axes_lxyz(1);
 AX(1)=a;
 AX(2)=a;
 hce=plot(  AX(2), 0, 0, 'ro');
@@ -63,5 +58,9 @@ legend([hfe;hfm;hfa;hce;hcm] ...
     ,'Expected current (mA)','Measured current (mA)' ...
     , 'Location','NorthWest')
 ylabel('legend');
-        
+set(a, 'XTickLabel', []); % disable tick labeling
+set(a, 'XTick', []);
+set(a, 'YTickLabel', []);
+set(a, 'YTick', []);
+
 end % function
