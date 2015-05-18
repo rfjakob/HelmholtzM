@@ -53,26 +53,33 @@ for k=1:3
     
 end % for
 
-% Add legend over top dummy plot
-a = global_state.guihandles.axes_legend;
-hold(a, 'on');
-hfe=stairs(a, [0 1], [0 0]);
-hfm=plot(  a, 0, 0, 'b.');
-%hfa=stairs(a, 0, 0, 'k--');
-hce=stairs(  a, 0, 0,'r');
-hcm=plot(  a, 0, 0, 'r.');
-%legend([hfe;hfm;hfa;hce;hcm] ...
-legend([hfe;hfm;hce;hcm] ...
-    ,'Expected flux density' ...
-    ,'Measured flux density' ...
-    ... ,'Antipar. pseudo flux densiy (uT)'
-    ,'Expected current' ...
-    ,'Measured current' ...
-    ,'Location','NorthWest')
-ylabel(a, 'legend');
-set(a, 'XTickLabel', []); % disable tick labeling
-set(a, 'XTick', []);
-set(a, 'YTickLabel', []);
-set(a, 'YTick', []);
+persistent legend_drawn;
 
+if isempty(legend_drawn) 
+
+    legend_drawn = 'ok';
+    
+    % Add legend over top dummy plot
+    a = global_state.guihandles.axes_legend;
+    hold(a, 'on');
+    hfe=stairs(a, [0 1], [0 0]);
+    hfm=plot(  a, 0, 0, 'b.');
+    %hfa=stairs(a, 0, 0, 'k--');
+    hce=stairs(  a, 0, 0,'r');
+    hcm=plot(  a, 0, 0, 'r.');
+    %legend([hfe;hfm;hfa;hce;hcm] ...
+    legend([hfe;hfm;hce;hcm] ...
+        ,'Expected flux density' ...
+        ,'Measured flux density' ...
+        ... ,'Antipar. pseudo flux densiy (uT)'
+        ,'Expected current' ...
+        ,'Measured current' ...
+        ,'Location','NorthWest')
+    ylabel(a, 'legend');
+    set(a, 'XTickLabel', []); % disable tick labeling
+    set(a, 'XTick', []);
+    set(a, 'YTickLabel', []);
+    set(a, 'YTick', []);
+end
+    
 end % function

@@ -64,6 +64,7 @@ for k=1:l
     log.current_measured(end+1,:)=[etime(clock,t0) c];
     
     plot_log(log);
+    drawnow;
     
     if global_state.step_time > 0
         t2=t0;

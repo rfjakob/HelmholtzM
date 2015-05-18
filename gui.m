@@ -24,7 +24,7 @@ clear globals
 
 % Edit the above text to modify the response to help gui
 
-% Last Modified by GUIDE v2.5 18-May-2015 22:54:01
+% Last Modified by GUIDE v2.5 19-May-2015 01:09:34
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -314,12 +314,14 @@ function uipanel7_SelectionChangeFcn(hObject, eventdata, handles)
 global global_state;
 h=handles;
 s=get(eventdata.NewValue,'Tag');
-invisible_in_static = [h.edit_stepsize; h.edit_steptime; h.text_steptime; h.text_stepsize; h.text_eta; h.text_eta_label];
+invisible_in_static = [h.edit_stepsize; h.edit_steptime; h.text_steptime; h.text_stepsize];
 only_visible_in_custom = h.edit_custom;
+invisible_in_nulling = [h.edit_target_flux_density; h.text_target_flux];
 if strcmp(s,'radiobutton_rotfld')
     global_state.mode=OperatingMode.Rotation;    
     set(invisible_in_static, 'Visible','on');
     set(only_visible_in_custom, 'Visible','off');
+    set(invisible_in_nulling, 'Visible','on');
     set(h.text_axis, 'String', 'Rotation axis [x y z]');
     set(h.text_numberof, 'String', 'Number of cycles');
     set(h.edit_steptime,'String', global_state.step_time);
@@ -327,13 +329,25 @@ elseif strcmp(s,'radiobutton_static')
     global_state.mode=OperatingMode.Static;
     set(invisible_in_static, 'Visible','off');
     set(only_visible_in_custom, 'Visible','off');
+    set(invisible_in_nulling, 'Visible','on');
     set(h.edit_steptime,'String','1');
     global_state.step_time = 1;
     set(h.text_axis, 'String', 'Direction [x y z]');
     set(h.text_numberof, 'String', 'Duration (s)');
-else
+elseif strcmp(s, 'radiobutton_nulling')
+    global_state.mode=OperatingMode.Nulling;
+    set(invisible_in_static, 'Visible','off');
+    set(invisible_in_nulling, 'Visible','off');
+    set(only_visible_in_custom, 'Visible','off');
+    set(h.edit_steptime,'String','1');
+    global_state.step_time = 1;
+    set(h.text_axis, 'String', 'Earth field [x y z] in uT');
+    set(h.text_numberof, 'String', 'Duration (s)');
+elseif strcmp(s, 'radiobutton_custom')
     global_state.mode=OperatingMode.Custom;
     set(only_visible_in_custom, 'Visible','on');
+else
+    error('UNKNOWN MODE');
 end
 calculate_points();
 

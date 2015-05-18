@@ -7,9 +7,15 @@ points_todo=[]; % Format: [x y z antiparallel], x y z in Tesla, antiparallel 0 o
 
 if global_state.mode == OperatingMode.Rotation
     points_todo = rotate_around_axis(global_state.rotation_axis, global_state.step_size);
+    % Scale to requested flux density
+    points_todo = points_todo * global_state.target_flux_density;
 elseif global_state.mode == OperatingMode.Static
     points_todo = global_state.rotation_axis;
     points_todo = points_todo / norm(points_todo);
+    % Scale to requested flux density
+    points_todo = points_todo * global_state.target_flux_density;
+elseif global_state.mode == OperatingMode.Nulling
+    points_todo = -global_state.rotation_axis / 1e6;
 elseif global_state.mode == OperatingMode.Custom
     try
         eval(global_state.custom_mode_string);
@@ -20,10 +26,9 @@ elseif global_state.mode == OperatingMode.Custom
     catch e
         errordlg(e.message);
     end
+    % Scale to requested flux density
+    points_todo = points_todo * global_state.target_flux_density;
 end
-
-% Scale to requested flux density
-points_todo = points_todo * global_state.target_flux_density;
 
 % Repeat "number_of_cycles" times
 points_todo = repmat(points_todo, global_state.number_of_cycles, 1);

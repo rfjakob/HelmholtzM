@@ -15,7 +15,7 @@ if isempty(pt)
    return
 end
 
-if global_state.mode == OperatingMode.Static
+if global_state.mode == OperatingMode.Static || global_state.mode == OperatingMode.Nulling 
     quiver3(ax3d, 0, 0, 0, pt(1,1), pt(1,2), pt(1,3));
 else
     plot3(ax3d, pt(:,1), pt(:,2), pt(:,3), 'ob');
@@ -38,7 +38,12 @@ ap = global_state.points_todo(:,4); % Antiparallel bit (1=antiparallel, 0=normal
 actual_expected_field(end+1,:)=actual_expected_field(end,:);
 would_be_field(end+1,:)=would_be_field(end,:);
 
-t=(0:size(actual_expected_field,1)-1)*global_state.step_time;
+estimated_step_time = global_state.step_time;
+if estimated_step_time == 0
+    estimated_step_time = 0.1
+end
+
+t=(0:size(actual_expected_field,1)-1) * estimated_step_time
 t=t.';
 t3=[t t t];
 h1=stairs(ax2,t3,would_be_field*1e6,'--');
@@ -52,7 +57,7 @@ legend([h2; h1(1)],'X','Y','Z','Antipar.');
 
 ylim(ax2, [-mag_max mag_max]);
 
-eta=size(actual_expected_field,1)*global_state.step_time;
+eta=size(actual_expected_field,1) * estimated_step_time;
 eta=datestr(datenum(0,0,0,0,0,eta),'HH:MM:SS');
 set(global_state.guihandles.text_eta,'String',eta);
 
