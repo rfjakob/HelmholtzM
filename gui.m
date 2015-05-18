@@ -20,9 +20,11 @@ function varargout = gui(varargin)
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
+clear globals
+
 % Edit the above text to modify the response to help gui
 
-% Last Modified by GUIDE v2.5 18-May-2015 21:30:10
+% Last Modified by GUIDE v2.5 18-May-2015 22:54:01
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -312,14 +314,26 @@ function uipanel7_SelectionChangeFcn(hObject, eventdata, handles)
 global global_state;
 h=handles;
 s=get(eventdata.NewValue,'Tag');
+invisible_in_static = [h.edit_stepsize; h.edit_steptime; h.text_steptime; h.text_stepsize; h.text_eta; h.text_eta_label];
+only_visible_in_custom = h.edit_custom;
 if strcmp(s,'radiobutton_rotfld')
     global_state.mode=OperatingMode.Rotation;    
-    set(h.edit_stepsize,'Enable','on');
+    set(invisible_in_static, 'Visible','on');
+    set(only_visible_in_custom, 'Visible','off');
+    set(h.text_axis, 'String', 'Rotation axis [x y z]');
+    set(h.text_numberof, 'String', 'Number of cycles');
+    set(h.edit_steptime,'String', global_state.step_time);
 elseif strcmp(s,'radiobutton_static')
     global_state.mode=OperatingMode.Static;
-    set(h.edit_stepsize,'Enable','off');
+    set(invisible_in_static, 'Visible','off');
+    set(only_visible_in_custom, 'Visible','off');
+    set(h.edit_steptime,'String','1');
+    global_state.step_time = 1;
+    set(h.text_axis, 'String', 'Direction [x y z]');
+    set(h.text_numberof, 'String', 'Duration (s)');
 else
-    errordlg('!!!!');
+    global_state.mode=OperatingMode.Custom;
+    set(only_visible_in_custom, 'Visible','on');
 end
 calculate_points();
 
@@ -382,7 +396,7 @@ function checkbox_measure_field_during_exp_CreateFcn(hObject, eventdata, handles
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 checkbox_measure_field_during_exp_Callback(hObject, eventdata, handles)
-
+x
 
 % --- Executes during object creation, after setting all properties.
 function axes_x_CreateFcn(hObject, eventdata, handles)
@@ -421,3 +435,39 @@ global_state.guihandles.axes_y2=hObject;
 function axes_z2_CreateFcn(hObject, eventdata, handles)
 global global_state;
 global_state.guihandles.axes_z2=hObject;
+
+
+
+function edit_custom_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_custom (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+global global_state;
+string_cell_array = get(hObject,'String');
+string_plain = [];
+for k = 1:length(string_cell_array)
+    string_plain = [ string_plain sprintf('\n%s', string_cell_array{k}) ];
+end
+global_state.custom_mode_string = string_plain;
+calculate_points();
+
+% --- Executes during object creation, after setting all properties.
+function edit_custom_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_custom (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+global global_state;
+string_cell_array = get(hObject,'String');
+string_plain = [];
+for k = 1:length(string_cell_array)
+    string_plain = [ string_plain sprintf('\n%s', string_cell_array{k}) ];
+end
+global_state.custom_mode_string = string_plain;

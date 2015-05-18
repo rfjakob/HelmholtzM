@@ -15,7 +15,7 @@ log.swtime=[];
 log.antipar=[];
 
 points=global_state.points_todo;
-l=length(points);
+l=length(points(:,1)); % (:,1) makes sure we measure the vertical length
 
 s = config();
 
@@ -76,7 +76,6 @@ for k=1:l
             pause(0.1)
             c=measure_current().*sign(current_expected);
             log.current_measured(end+1,:)=[etime(clock,t0) c];
-            plot_log(log);
             
             %diff=max(abs(c-current_expected));
             %if diff<0.001 || diff/max(abs(current_expected))>0.05

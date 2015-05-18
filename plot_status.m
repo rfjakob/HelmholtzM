@@ -15,8 +15,11 @@ if isempty(pt)
    return
 end
 
-origin = pt(:,1) * 0;
-quiver3(ax3d, origin, origin, origin, pt(:,1), pt(:,2), pt(:,3));
+if global_state.mode == OperatingMode.Static
+    quiver3(ax3d, 0, 0, 0, pt(1,1), pt(1,2), pt(1,3));
+else
+    plot3(ax3d, pt(:,1), pt(:,2), pt(:,3), 'ob');
+end
 xlabel(ax3d, 'X')
 ylabel(ax3d, 'Y')
 zlabel(ax3d, 'Z')
@@ -31,7 +34,7 @@ ap = global_state.points_todo(:,4); % Antiparallel bit (1=antiparallel, 0=normal
 
 [actual_expected_field, would_be_field]=points_to_expected_field(global_state.points_todo);
 
-% Make the stairs plot draws a line for the last point
+% Make the stairs plot draw a line for the last point
 actual_expected_field(end+1,:)=actual_expected_field(end,:);
 would_be_field(end+1,:)=would_be_field(end,:);
 

@@ -32,6 +32,7 @@ for k=1:3
     set(AX(2), 'Color','none');
     set(AX(2), 'YColor','r');
     ylabel(AX(2), 'mA')
+    ax2_xlim = xlim(AX(2));
     hold(AX(2), 'off')
     
     hfm=plot(  AX(1), log.field_measured(:,1),         log.field_measured(:,k+1)*bs,'b.');
@@ -47,7 +48,9 @@ for k=1:3
     if k == 3
          xlabel(AX(1), 'Runtime (seconds)');
     end
+    xlim(AX(1), ax2_xlim);
     hold(AX(1), 'off');
+    
 end % for
 
 % Add legend over top dummy plot
