@@ -6,7 +6,7 @@ n=str2num(get(hObject,'String'));
 
 l=0;
 try
-    l=norm(n*[1;1;1]); % This also checks if dimensions are correct
+    l=norm(abs(n)*[1;1;1]); % This also checks if dimensions are correct
 end
 
 if l==0 || isnan(l) || ~isreal(n)
