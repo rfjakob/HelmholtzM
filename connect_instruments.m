@@ -52,10 +52,6 @@ if global_state.dryrun == 0
     end
 end
 
-
-% set_psu_range(1);
-% set_psu_output([1 2 3], 1);
-
 % connect_mag03dam();
     
 end
