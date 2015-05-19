@@ -20,8 +20,6 @@ function varargout = gui(varargin)
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
-clear globals
-
 % Edit the above text to modify the response to help gui
 
 % Last Modified by GUIDE v2.5 19-May-2015 01:09:34
@@ -64,6 +62,8 @@ guidata(hObject, handles);
 
 % Coilcontrol: Startup
 global global_state;
+
+clear plot_log; % Clear persistent variables
 
 user_config = config();
 global_state.dryrun=user_config.dryrun;
