@@ -8,19 +8,15 @@ function [ b_coilcoords ] = measure_field( )
 	end
 
 	for a=[1 2 3]
-		r=calllib('M201_SP','EX_SetPolledModeChan',a-1, 0);
-		if r==0
-            error('Could not read from Mag-03DAM: EX_SetPolledModeChan failed');
-        end
         
-		% http://www.mathworks.de/help/techdoc/matlab_external/f42650.html#f50691
-		x = 15;
-		xp = libpointer('doublePtr',x);
-		r=calllib('M201_SP','EX_GetOneConversion',xp);
-        if r==0
-            error('Could not read from Mag-03DAM: EX_GetOneConversion failed');
+		% http://lawsonlabs.com/Download/Manuals-Drivers/Model201/M201_SP/#MatLab Code Examples
+		volts = 999;
+		volts_pntr = libpointer('doublePtr', volts);
+		r = calllib('M201_SP_64bit','EX_GetOneConversion', volts_pntr);
+        if r ~= 1
+            error('Could not read from Mag-03DAM: EX_GetOneConversion failed (%d)', r);
         end
-		b(a)=xp.Value;
+		b(a) = volts_pntr.Value;
     end
     
     % Values are 0.1uT
