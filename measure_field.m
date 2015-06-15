@@ -9,6 +9,11 @@ function [ b_coilcoords ] = measure_field( )
 
 	for a=[1 2 3]
         
+        r = calllib('M201_SP_64bit', 'EX_SetPolledModeChan', a - 1, 0);
+		if r ~= 1
+            error('Could not read from Mag-03DAM: EX_SetPolledModeChan failed');
+        end
+        
 		% http://lawsonlabs.com/Download/Manuals-Drivers/Model201/M201_SP/#MatLab Code Examples
 		volts = 999;
 		volts_pntr = libpointer('doublePtr', volts);
@@ -19,13 +24,14 @@ function [ b_coilcoords ] = measure_field( )
 		b(a) = volts_pntr.Value;
     end
     
-    % Values are 0.1uT
+    % Values are in units of 0.1uT
     b=b*0.1e-6;
-    
-    % Coordinate system of coils and of magnetometer are not the same.
+
+    % If the magnetometer is not aligned with the axes, swap the components
+    % here:
     b_coilcoords(1)=b(1);
-    b_coilcoords(2)=b(3);
-    b_coilcoords(3)=-b(2);
+    b_coilcoords(2)=b(2);
+    b_coilcoords(3)=b(3);
 	
 end
 

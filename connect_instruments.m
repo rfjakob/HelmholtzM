@@ -52,7 +52,7 @@ if global_state.dryrun == 0
     end
 end
 
-% connect_mag03dam();
+connect_mag03dam();
     
 end
 

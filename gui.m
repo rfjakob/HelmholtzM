@@ -63,7 +63,6 @@ guidata(hObject, handles);
 % Coilcontrol: Startup
 global global_state;
 
-clear plot_log; % Clear persistent variables
 % Clear persistent variables
 clear plot_log;
 clear arduino_set_relays;
@@ -76,7 +75,7 @@ global_state.abort=0;
 global_state.earth_field=[0 0 0];
 global_state.mode=OperatingMode.Rotation;
 global_state.antiparallel = 0;
-global_state.measure_field_during_exp = 0;
+global_state.measure_field_during_exp = 1;
 connect_instruments();                  % Connect PSUs
 calculate_points();                     % Calculate default points to do
 rotate3d(global_state.guihandles.axes_3d,'on');  % Enable mouse rotate

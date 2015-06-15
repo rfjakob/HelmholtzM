@@ -18,7 +18,7 @@ s.psucom.z=6;
 s.psuout.z=1;
 
 % What COM port number is the Bartington Mag03DAM connected to
-s.mag03com=11;
+s.mag03com=2;
 
 % COM port of the Arduino
 s.arduino = 8;
