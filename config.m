@@ -24,11 +24,13 @@ s.mag03com=11;
 s.arduino = 8;
 
 % flux density in the coil center (tesla) per amp of current in the coils
-s.tesla_per_amp =  [200 200 200] * 1e-6 * 2;
+s.tesla_per_amp =  [50.5 50.5 -50.5] * 1e-6 * 2;
 %                                         ^ Spec is for one strand of bifilar wire
 %                                    ^ uT
 %                    ^   ^   ^ Ferronato spec
-% http://www.serviciencia.es/BH1300-i1.htm
+% http://www.serviciencia.es/folletos/BH1300-C-Spec-Eng-1.pdf
+%
+% Z coil is wired in reverse, hence the third component is negative.
 
 % Electrical resistance of the coils (Ohms, x y z)
 s.resistance_ohms = [ 4.64 4.43 4.16 ];
