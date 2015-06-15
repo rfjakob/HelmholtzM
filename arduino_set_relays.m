@@ -23,7 +23,7 @@ else
         new_state(3:4) = 1;
     end
     if V(3) < 0
-        new_state(4:5) = 1;
+        new_state(5:6) = 1;
     end
 end
 
