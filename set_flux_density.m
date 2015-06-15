@@ -10,6 +10,8 @@ s = config();
 setB = targetB - global_state.earth_field;
 I = setB ./ s.tesla_per_amp;
 
+
+
 % For the 1300mm coils, current control does not work.
 % The current fluctuates wildly sometimes, which is an indication that
 % the PSU cannot handle the high inductance.
@@ -18,6 +20,11 @@ I = setB ./ s.tesla_per_amp;
 %set_current(I);
 R = s.resistance_ohms;
 V = R .* I;
+
+% HARDWARE BUGFIX
+% Z coil is wired in reverse, hence the third component is negative.
+V(3) = -V(3);
+
 set_voltage(V, antiparallel);
 
 end
