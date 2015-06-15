@@ -26,6 +26,11 @@ zlabel(ax3d, 'Z')
 
 mag_max=max(max(abs(global_state.points_todo(:,1:3))))*1.1*1e6; % 1.1 ... add a bit of headroom
                                                                 % 1e6 ... uT
+% Anything below 1 uT does not make sense
+if mag_max <= 1
+    mag_max = 1;
+end
+
 xlim(ax3d, [-mag_max mag_max]);
 ylim(ax3d, [-mag_max mag_max]);
 zlim(ax3d, [-mag_max mag_max]);
