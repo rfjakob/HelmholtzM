@@ -22,7 +22,7 @@ function varargout = gui(varargin)
 
 % Edit the above text to modify the response to help gui
 
-% Last Modified by GUIDE v2.5 19-May-2015 01:09:34
+% Last Modified by GUIDE v2.5 15-Jun-2015 20:21:27
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -101,7 +101,7 @@ function edit_steptime_Callback(hObject, eventdata, handles)
 %        str2double(get(hObject,'String')) returns contents of edit_steptime as a double
 global global_state;
 n=str2double(get(hObject,'String'));
-if isnan(n) || n<0 || n>3600
+if isnan(n) || n<0 || n>36000
     set(hObject,'BackgroundColor','red');
     n=NaN;
     global_state.step_time=n;
@@ -256,7 +256,11 @@ global global_state
 %end
 global log
 enable_gui(handles,'off');
-log=start_360_cycle();
+if global_state.mode == OperatingMode.Nulling
+    log = iterative_nulling();
+else
+    log=start_360_cycle();
+end
 enable_gui(handles,'on');
 global_state.abort=0;
 
@@ -318,7 +322,8 @@ h=handles;
 s=get(eventdata.NewValue,'Tag');
 invisible_in_static = [h.edit_stepsize; h.edit_steptime; h.text_steptime; h.text_stepsize];
 only_visible_in_custom = h.edit_custom;
-invisible_in_nulling = [h.edit_target_flux_density; h.text_target_flux];
+invisible_in_nulling = [h.edit_target_flux_density; h.text_target_flux; h.edit_rotation_axis; h.text_axis; ...
+    h.edit_numberof; h.text_numberof; h.text_eta_label; h.text_eta; h.checkbox_antiparallel];
 if strcmp(s,'radiobutton_rotfld')
     global_state.mode=OperatingMode.Rotation;    
     set(invisible_in_static, 'Visible','on');

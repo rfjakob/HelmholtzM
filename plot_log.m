@@ -25,9 +25,9 @@ for k=1:3
   
     % http://blogs.mathworks.com/pick/2006/05/26/plotting-multiple-y-scales/ comment #6
     %set(AX(2),'nextplot','add');
-    hce=stairs(  AX(2), log.current_expected(:,1),       log.current_expected(:,k+1)*is,'r');
+    hce=stairs(  AX(2), log.current_expected(:,1), log.current_expected(:,k+1)*is,'r');
     hold(AX(2), 'on')
-    hcm=plot(  AX(2), log.current_measured(:,1),       log.current_measured(:,k+1)*is,'r.'); 
+    hcm=plot(  AX(2), log.current_measured(:,1), log.current_measured(:,k+1)*is,'r.'); 
     set(AX(2), 'YAxisLocation','right');
     set(AX(2), 'Color','none');
     set(AX(2), 'YColor','r');
@@ -35,10 +35,10 @@ for k=1:3
     ax2_xlim = xlim(AX(2));
     hold(AX(2), 'off')
     
-    hfm=plot(  AX(1), log.field_measured(:,1),         log.field_measured(:,k+1)*bs,'b.');
+    hfm=plot(  AX(1), log.field_measured(:,1), log.field_measured(:,k+1)*bs,'b.');
     hold(AX(1), 'on')
     %hfa=stairs(AX(1), log.field_set_antiparallel(:,1), log.field_set_antiparallel(:,k+1)*bs,'k--');
-    hfe=stairs(AX(1), log.field_expected(:,1),         log.field_expected(:,k+1)*bs);
+    hfe=stairs(AX(1), log.field_expected(:,1), log.field_expected(:,k+1)*bs);
     set(AX(1), 'YColor','b');
     
     %title(xyz(k));
