@@ -6,7 +6,7 @@ global global_state;
 
 persistent last_state;
 if isempty(last_state)
-    last_state = [0 0 0 0 0 0];
+    last_state = [1 1 1 1 1 1];
 end
 
 % Relays 1 to 6.
