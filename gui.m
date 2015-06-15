@@ -64,6 +64,9 @@ guidata(hObject, handles);
 global global_state;
 
 clear plot_log; % Clear persistent variables
+% Clear persistent variables
+clear plot_log;
+clear arduino_set_relays;
 
 user_config = config();
 global_state.dryrun=user_config.dryrun;
