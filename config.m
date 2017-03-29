@@ -18,10 +18,12 @@ s.psucom.z=6;
 s.psuout.z=1;
 
 % What COM port number is the Bartington Mag03DAM connected to
+% NOTE!!!! Port numbers above 4 DO NOT WORK
+% because the Bartington library is stupid
 s.mag03com=2;
 
 % COM port of the Arduino
-s.arduino = 8;
+s.arduino = 11;
 
 % flux density in the coil center (tesla) per amp of current in the coils
 s.tesla_per_amp =  [50.5 50.5 50.5] * 1e-6 * 2;

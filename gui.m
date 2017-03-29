@@ -417,7 +417,7 @@ function checkbox_measure_field_during_exp_CreateFcn(hObject, eventdata, handles
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 checkbox_measure_field_during_exp_Callback(hObject, eventdata, handles)
-x
+
 
 % --- Executes during object creation, after setting all properties.
 function axes_x_CreateFcn(hObject, eventdata, handles)

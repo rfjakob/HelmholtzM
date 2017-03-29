@@ -25,6 +25,8 @@ for k=1:3
   
     % http://blogs.mathworks.com/pick/2006/05/26/plotting-multiple-y-scales/ comment #6
     %set(AX(2),'nextplot','add');
+    
+    % Plot measured and expected currents
     hce=stairs(  AX(2), log.current_expected(:,1), log.current_expected(:,k+1)*is,'r');
     hold(AX(2), 'on')
     hcm=plot(  AX(2), log.current_measured(:,1), log.current_measured(:,k+1)*is,'r.'); 
@@ -35,6 +37,13 @@ for k=1:3
     ax2_xlim = xlim(AX(2));
     hold(AX(2), 'off')
     
+    % Have at least a -100 ... +100mA plot range
+    lim_ma = ylim(AX(2));
+    lim_ma(1) = min(lim_ma(1)*1.1, -100);
+    lim_ma(2) = max(lim_ma(2)*1.1, 100);
+    ylim(AX(2), lim_ma);
+    
+    % Plot measured and expected field
     hfm=plot(  AX(1), log.field_measured(:,1), log.field_measured(:,k+1)*bs,'b.');
     hold(AX(1), 'on')
     %hfa=stairs(AX(1), log.field_set_antiparallel(:,1), log.field_set_antiparallel(:,k+1)*bs,'k--');
@@ -51,6 +60,11 @@ for k=1:3
     xlim(AX(1), ax2_xlim);
     hold(AX(1), 'off');
     
+    % Have at least a -10 ... +10uT plot range
+    lim_ut = ylim(AX(1));
+    lim_ut(1) = min(lim_ut(1)*1.1, -10);
+    lim_ut(2) = max(lim_ut(2)*1.1, 10);
+    ylim(AX(1), lim_ut);
 end % for
 
 persistent legend_drawn;
