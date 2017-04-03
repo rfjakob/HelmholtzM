@@ -35,8 +35,6 @@ xlim(ax3d, [-mag_max mag_max]);
 ylim(ax3d, [-mag_max mag_max]);
 zlim(ax3d, [-mag_max mag_max]);
 
-ap = global_state.points_todo(:,4); % Antiparallel bit (1=antiparallel, 0=normal)
-
 [actual_expected_field, would_be_field]=points_to_expected_field(global_state.points_todo);
 
 % Make the stairs plot draw a line for the last point
@@ -58,8 +56,7 @@ ylabel(ax2,'Flux density (uT)');
 xlabel(ax2,'t (s)');
 grid(ax2,'on');
 hold(ax2,'off');
-legend([h2; h1(1)],'X','Y','Z','Antipar.');
-
+legend([h2; h1],'X','Y','Z','Antipar.X','Antipar.Y','Antipar.Z');
 ylim(ax2, [-mag_max mag_max]);
 
 eta=size(actual_expected_field,1) * estimated_step_time;

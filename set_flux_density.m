@@ -10,8 +10,6 @@ s = config();
 setB = targetB - global_state.earth_field;
 I = setB ./ s.tesla_per_amp;
 
-
-
 % For the 1300mm coils, current control does not work.
 % The current fluctuates wildly sometimes, which is an indication that
 % the PSU cannot handle the high inductance.

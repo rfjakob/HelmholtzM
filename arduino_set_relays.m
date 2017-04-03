@@ -13,17 +13,11 @@ end
 % 1 = X1, 2 = X2, 3 = Y1, 4 = Y2 etc.
 new_state = [0 0 0 0 0 0];
 
-if antiparallel == 1
-    new_state = [0 1 0 1 0 1];
-else
-    if V(1) < 0
-        new_state(1:2) = 1;
-    end
-    if V(2) < 0
-        new_state(3:4) = 1;
-    end
-    if V(3) < 0
-        new_state(5:6) = 1;
+for i=1:3
+    if antiparallel (i) == 1
+        new_state (2*i-1:2*i) = [0 1];
+    elseif V(i) < 0
+        new_state(2*i-1:2*i) = 1;
     end
 end
 

@@ -27,7 +27,7 @@ else
     set_psu_range(2);
 end
 
-set_flux_density([0 0 0], 0);
+set_flux_density([0 0 0], [0 0 0]);
 set_psu_output([1 2 3], 1);
 
 fprintf('Stepping through %d points:',l);
@@ -40,7 +40,7 @@ for k=1:l
     end
     tsw=clock;    
     
-    current_expected=set_flux_density(points(k,1:3), points(k,4));
+    current_expected=set_flux_density(points(k,1:3), points(k,4:6));
     
     [field_expected, field_set_antiparallel]=points_to_expected_field(points(k,:));
     
