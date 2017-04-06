@@ -3,39 +3,20 @@ function [ actual_expected_field, would_be_field ] = points_to_expected_field( p
 %expected field. That is, earth field when antiparallel, xyz field when
 %normal.
 
-global global_state
-ef=global_state.earth_field;
+% Antiparallel flag
 ap=[points(:,4) points(:,5) points(:,6)];
+% XYZ target field strength
 xyz=points(:,1:3);
 
-would_be_field=xyz; % Field that would occour if antiparallel was off
+% Field that would be generated if antiparallel is off
+would_be_field = xyz;
 
-if ap(1) == ap(2) && ap(1) == ap(3)
-    if ap(1)>0 % Case all antiparallel
-        nap=0;
-        actual_expected_field=xyz.*[nap nap nap]+repmat(ef,size(ap,1),1).*ap; % When ap(i)==1 for i=4,5,6 we get only the earth field
-    elseif ap(1)==0 % Case all antiparallel off
-        nap=1;
-        actual_expected_field=xyz.*[nap nap nap]+repmat(ef,size(ap,1),1).*ap;
-        would_be_field(ap(1)==0,:)=NaN; % If antiparallel is actually off, we set to NaN
-    else
-        warning('ap contains negative values')
-    end
-else
-    if ap(1)==ap(2)&&ap(1)==1
-        nap=[0 0 1];
-        actual_expected_field=xyz+repmat(ef,size(ap,1),1).*ap;
-    elseif ap(1)==ap(3) && ap(1)==1
-        nap=[0 1 0];
-        actual_expected_field=xyz+repmat(ef,size(ap,1),1).*ap;
-    elseif ap(2)==ap(3) && ap(2)==1
-        nap=[1 0 0];
-        actual_expected_field=xyz+repmat(ef,size(ap,1),1).*ap;
-    else
-        ap
-        warning('What should happen in this case?')
-    end
-end
+% Negated antiparallel flag. If the coil is running antiparallel, we want
+% a zero.
+nap = ~ap;
+
+% Field that we expect, taking the antiparallel flags into account
+actual_expected_field = xyz .* nap;
           
 end
 

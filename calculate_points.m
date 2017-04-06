@@ -9,6 +9,8 @@ if global_state.mode == OperatingMode.Rotation
     points_todo = rotate_around_axis(global_state.rotation_axis, global_state.step_size);
     % Scale to requested flux density
     points_todo = points_todo * global_state.target_flux_density;
+    % pad with antiparallel zeros
+    points_todo(:,4:6) = 0;
 elseif global_state.mode == OperatingMode.Static
 	on_principal_axis = 1
     % If field is on a principal axis, set two others antiparallel
