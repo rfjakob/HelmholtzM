@@ -12,7 +12,8 @@ log.field_set_antiparallel=[];
 log.current_expected = [NaN NaN NaN NaN];
 log.current_measured = [];
 
-set_flux_density([0 0 0], 0);
+set_flux_density([0 0 0], [0 0 0]);
+set_psu_range(1);
 set_psu_output([1 2 3], 1);
 
 B = [0 0 0];
@@ -24,15 +25,16 @@ while 1
     log.field_measured(end+1,:) = [et B_rest];
     log.field_expected(end+1, :) = [et 0 0 0];
     
+    fprintf('Remaining flux density: %2.2f uT\n', norm(B_rest)*1e6)
+    
     B = B - B_rest * 0.1;
     
-    norm(B)
     if norm(B) > 100e-6
         errordlg('Excessive current needed for compensation - measurement problem? Aborting for safety.');
         break
     end
     
-    current_expected = set_flux_density(B, 0);
+    current_expected = set_flux_density(B, [0 0 0]);
     
     c = measure_current().*sign(current_expected);
     log.current_expected(end+1,:)=[etime(clock,t0) current_expected];

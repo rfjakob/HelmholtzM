@@ -91,7 +91,7 @@ for k=1:l
         
         p=etime(t2,clock);
         if p<0
-            fprintf(' warning: %d seconds behind schedule\n',-p)
+            fprintf(' warning: %2.1f seconds behind schedule\n',-p)
         else
             pause(p);
         end

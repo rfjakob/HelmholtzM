@@ -15,8 +15,11 @@ if isempty(pt)
    return
 end
 
+[actual_expected_field, would_be_field]=points_to_expected_field(global_state.points_todo);
+
 if global_state.mode == OperatingMode.Static || global_state.mode == OperatingMode.Nulling 
-    quiver3(ax3d, 0, 0, 0, pt(1,1), pt(1,2), pt(1,3));
+    ut = actual_expected_field(1,1:3)*1e6;
+    quiver3(ax3d, 0, 0, 0, ut(1), ut(2), ut(3));
 else
     plot3(ax3d, pt(:,1), pt(:,2), pt(:,3),'.-');
 end
@@ -34,8 +37,6 @@ end
 xlim(ax3d, [-mag_max mag_max]);
 ylim(ax3d, [-mag_max mag_max]);
 zlim(ax3d, [-mag_max mag_max]);
-
-[actual_expected_field, would_be_field]=points_to_expected_field(global_state.points_todo);
 
 % Make the stairs plot draw a line for the last point
 actual_expected_field(end+1,:)=actual_expected_field(end,:);

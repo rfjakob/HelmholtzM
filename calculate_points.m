@@ -12,36 +12,46 @@ if global_state.mode == OperatingMode.Rotation
     % pad with antiparallel zeros
     points_todo(:,4:6) = 0;
 elseif global_state.mode == OperatingMode.Static
-	on_principal_axis = 1
-    % If field is on a principal axis, set two others antiparallel
-    if points_todo(1) == 0 && points_todo(2) == 0
-        points_todo(1,4) = 1;
-        points_todo(1,5) = 1;
-        points_todo(1,6) = 0;
-    elseif points_todo(1) == 0 && points_todo(3) == 0
-        points_todo(1,4) = 1;
-        points_todo(1,5) = 0;
-        points_todo(1,6) = 1;
-    elseif points_todo(2) == 0 && points_todo(3) == 0
-        points_todo(1,4) = 0;
-        points_todo(1,5) = 1;
-        points_todo(1,6) = 1;
-    else
-        points_todo(1,4) = 0;
-        points_todo(1,5) = 0;
-        points_todo(1,6) = 0;
-    	on_principal_axis = 0;
-    end
+	% In static mode, the "rotation_axis" is used as the field vector
+    xyz = global_state.rotation_axis;
+    % Scale to wanted flux density
+    flux =  global_state.target_flux_density;
+    points_todo = xyz / norm(xyz) * flux;
 
-    if on_principal_axis
-    	% energize all coils
-    	points_todo(1,1:3) = global_state.target_flux_density;
-	else
-		a = global_state.rotation_axis / norm(global_state.rotation_axis);
-	    points_todo(1,1:3) =  a * global_state.target_flux_density;
+    % If field is on a principal axis, set two others antiparallel
+    if xyz(1) == 0 && xyz(2) == 0
+        % On Z axis
+        points_todo(1) = flux;
+        points_todo(2) = flux;
+
+        points_todo(4) = 1;
+        points_todo(5) = 1;
+        points_todo(6) = 0;
+    elseif xyz(1) == 0 && xyz(3) == 0
+        % On Y axis
+        points_todo(1) = flux;
+        points_todo(3) = flux;
+
+        points_todo(4) = 1;
+        points_todo(5) = 0;
+        points_todo(6) = 1;
+    elseif xyz(2) == 0 && xyz(3) == 0
+        % On X axis
+        points_todo(2) = flux;
+        points_todo(3) = flux;
+
+        points_todo(4) = 0;
+        points_todo(5) = 1;
+        points_todo(6) = 1;
+    else
+        % Not on a principal axis.
+        points_todo(4) = 0;
+        points_todo(5) = 0;
+        points_todo(6) = 0;
     end
 elseif global_state.mode == OperatingMode.Nulling
     points_todo = -global_state.rotation_axis / 1e6;
+    points_todo(4:6) = 0;
 elseif global_state.mode == OperatingMode.Custom
     try
         eval(global_state.custom_mode_string);

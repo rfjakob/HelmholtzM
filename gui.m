@@ -338,7 +338,7 @@ elseif strcmp(s,'radiobutton_static')
     set(only_visible_in_custom, 'Visible','off');
     set(invisible_in_nulling, 'Visible','on');
     set(h.edit_steptime,'String','1');
-    global_state.step_time = 1;
+    global_state.step_time = 2;
     set(h.text_axis, 'String', 'Direction [x y z]');
     set(h.text_numberof, 'String', 'Duration (s)');
 elseif strcmp(s, 'radiobutton_nulling')

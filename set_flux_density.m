@@ -3,6 +3,10 @@ function [ I ] = set_flux_density( targetB, antiparallel )
 % output currents so we achieve it. Takes the earth field into account.
 % I and targetB are x,y,z vectors.
 
+if length(targetB) ~= 3 || length(antiparallel) ~= 3
+    error('invalid argument dimensions')
+end
+
 global global_state;
 
 s = config();
