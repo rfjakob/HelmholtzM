@@ -3,7 +3,7 @@ function [ s ] = config()
 % moving to a different computer
 
 % Disable instruments
-s.dryrun = 0;
+s.dryrun = 1;
 
 % X coils
 s.psucom.x=7; % COM port number

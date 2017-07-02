@@ -326,6 +326,7 @@ invisible_in_nulling = [h.edit_target_flux_density; h.text_target_flux; h.edit_r
     h.edit_numberof; h.text_numberof; h.text_eta_label; h.text_eta; h.checkbox_antiparallel];
 % No user controls in Rot90 mode - everything is invisible
 invisible_in_rot90 = [invisible_in_static; invisible_in_nulling; only_visible_in_custom];
+visible_in_rot90 = [h.text_eta_label; h.text_eta];
 if strcmp(s,'radiobutton_rotfld')
     global_state.mode=OperatingMode.Rotation;    
     set(invisible_in_static, 'Visible','on');
@@ -357,8 +358,11 @@ elseif strcmp(s, 'radiobutton_custom')
     set(only_visible_in_custom, 'Visible','on');
 elseif strcmp(s, 'radiobutton_rot90')
     global_state.mode=OperatingMode.Rot90;
+    global_state.measure_field_during_exp=0;
     global_state.target_flux_density=150e-6; % Hardcoded to 150uT
+    global_state.step_time = 0.4; % Hardcoded to 400ms
     set(invisible_in_rot90, 'Visible','off');
+    set(visible_in_rot90, 'Visible', 'on');
 else
     error('UNKNOWN MODE');
 end

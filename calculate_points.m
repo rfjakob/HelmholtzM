@@ -69,7 +69,13 @@ elseif global_state.mode == OperatingMode.Custom
     points_todo(:,5) = 0;
     points_todo(:,6) = 0;
 elseif global_state.mode == OperatingMode.Rot90
-    TODO
+    points_todo = rot90_all();
+    % No coils are run antiparallel
+    points_todo(:,4) = 0;
+    points_todo(:,5) = 0;
+    points_todo(:,6) = 0;
+    % Scale to requested flux density
+    points_todo = points_todo * global_state.target_flux_density;
 end
 
 % Repeat "number_of_cycles" times
