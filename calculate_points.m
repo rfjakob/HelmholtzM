@@ -68,6 +68,8 @@ elseif global_state.mode == OperatingMode.Custom
     points_todo(:,4) = 0;
     points_todo(:,5) = 0;
     points_todo(:,6) = 0;
+elseif global_state.mode == OperatingMode.Rot90
+    TODO
 end
 
 % Repeat "number_of_cycles" times
