@@ -7,8 +7,8 @@ start_vectors = [start_vectors; -start_vectors];
 rotation_axes = [0 1 0; 0 0 1; 1 0 0];
 rotation_axes = [rotation_axes; -rotation_axes];
 
-num_rots = 48;
-rads = 2 * pi / num_rots;
+num_rots = 96;
+rads = 4 * 2 * pi / num_rots;
 
 points_todo = [];
 

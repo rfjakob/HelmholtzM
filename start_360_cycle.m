@@ -34,6 +34,9 @@ fprintf('Stepping through %d points:',l);
 t0=clock;
 for k=1:l
     fprintf(' %d',k);
+    if mod(k, 20) == 0
+        fprintf('\n')
+    end
     if global_state.abort==1
         fprintf('\nUser abort in start_360_cycle')
         break
