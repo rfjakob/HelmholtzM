@@ -326,7 +326,7 @@ invisible_in_nulling = [h.edit_target_flux_density; h.text_target_flux; h.edit_r
     h.edit_numberof; h.text_numberof; h.text_eta_label; h.text_eta; h.checkbox_antiparallel];
 % No user controls in Rot90 mode - everything is invisible
 invisible_in_rot90 = [invisible_in_static; invisible_in_nulling; only_visible_in_custom];
-visible_in_rot90 = [h.text_eta_label; h.text_eta];
+visible_in_rot90 = [h.text_eta_label; h.text_eta; h.checkbox_antiparallel];
 if strcmp(s,'radiobutton_rotfld')
     global_state.mode=OperatingMode.Rotation;    
     set(invisible_in_static, 'Visible','on');
